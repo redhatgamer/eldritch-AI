@@ -1,29 +1,18 @@
+// src/services/geminiService.js
+
 import axios from 'axios';
+import config from '..config.js'
 
-const API_KEY = 'your_openai_api_key'; // Replace with your actual OpenAI API key
-const API_URL = 'https://api.openai.com/v1/engines/davinci-codex/completions';
+const BASE_URL = 'https://api.gemini.com/v1'; // Gemini API base URL
 
-export const fetchAIQuestions = async (topic) => {
+const getPublicData = async (endpoint) => {
     try {
-        const response = await axios.post(
-            API_URL,
-            {
-                prompt: `Generate a multiple-choice quiz question on the topic: ${topic}`,
-                max_tokens: 150,
-                n: 1,
-                stop: null,
-                temperature: 0.5,
-            },
-            {
-                headers: {
-                    'Authorization': `Bearer ${API_KEY}`,
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-        return response.data.choices[0].text.trim();
+        const response = await axios.get(`${BASE_URL}/${endpoint}`);
+        return response.data;
     } catch (error) {
-        console.error('Error fetching AI questions:', error);
-        return null;
+        console.error('Error fetching data from Gemini:', error);
+        throw error; // Handle error appropriately in your components
     }
 };
+
+export { getPublicData };
