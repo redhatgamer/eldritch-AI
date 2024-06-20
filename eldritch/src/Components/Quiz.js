@@ -1,18 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Updated import
 
 const Quiz = () => {
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
-    const history = useHistory();
+    const navigate = useNavigate(); // Updated usage
 
+    // Replace this with your AI or static questions fetching logic
     useEffect(() => {
-        // Fetch questions from an API or a static file
-        axios.get('/path-to-questions-api')
-            .then(response => setQuestions(response.data))
-            .catch(error => console.error('Error fetching questions:', error));
+        const fetchQuestions = async () => {
+            // Fetch questions from your service
+            const fetchedQuestions = [
+                {
+                    question: 'What is the capital of France?',
+                    answers: [
+                        { text: 'Paris', isCorrect: true },
+                        { text: 'London', isCorrect: false },
+                        { text: 'Rome', isCorrect: false },
+                        { text: 'Berlin', isCorrect: false },
+                    ],
+                },
+                // Add more questions here
+            ];
+            setQuestions(fetchedQuestions);
+        };
+
+        fetchQuestions();
     }, []);
 
     const handleAnswerOptionClick = (isCorrect) => {
@@ -24,7 +38,7 @@ const Quiz = () => {
         if (nextQuestion < questions.length) {
             setCurrentQuestionIndex(nextQuestion);
         } else {
-            history.push('/results', { score, total: questions.length });
+            navigate('/results', { state: { score, total: questions.length } }); // Updated usage
         }
     };
 
@@ -36,7 +50,7 @@ const Quiz = () => {
             <div>
                 {questions[currentQuestionIndex].answers.map((answer, index) => (
                     <button key={index} onClick={() => handleAnswerOptionClick(answer.isCorrect)}>
-                        {answer.answer}
+                        {answer.text}
                     </button>
                 ))}
             </div>
