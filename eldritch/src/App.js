@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Quiz from './components/Quiz';
-import Results from './components/Results';
-import GeminiData from './components/GeminiData';
+import Home from './Components/Home';
+import Quiz from './Components/Quiz';
+import Results from './Components/Results';
+import GeminiData from './Components/GeminiData';
 import './App.css';
 
 const App = () => {
