@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
+import MainPage from './MainPage';
 import Quiz from './Quiz';
 
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <h1>Quiz App</h1>
-            </header>
+            <MainPage />
             <Quiz />
         </div>
     );
