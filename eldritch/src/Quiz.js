@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Question from './Question';
+import Timer from './Timer';
 
 const quizData = [
     {
@@ -20,6 +21,8 @@ function Quiz() {
     const [selectedOption, setSelectedOption] = useState('');
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
+    const [timer, setTimer] = useState(0); // Timer state in seconds
+    const [timePerQuestion, setTimePerQuestion] = useState(1); // Default time per question in minutes
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -37,21 +40,56 @@ function Quiz() {
         }
     };
 
+    const handleTimeUp = () => {
+        handleNextQuestion();
+    };
+
+    const handleTimerChange = (event) => {
+        const newMinutes = parseInt(event.target.value);
+        setTimePerQuestion(newMinutes);
+        setTimer(newMinutes * 60); // Convert minutes to seconds for Timer component
+    };
+
+    const startQuiz = () => {
+        setTimer(timePerQuestion * 60); // Convert minutes to seconds
+        setCurrentQuestionIndex(0);
+        setShowScore(false);
+    };
+
     return (
         <div>
+            {!showScore && timer === 0 && (
+                <div>
+                    <label htmlFor="timeInput">Select time per question (minutes):</label>
+                    <input
+                        type="number"
+                        id="timeInput"
+                        value={timePerQuestion}
+                        onChange={handleTimerChange}
+                        min="1"
+                        max="60"
+                    />
+                    <button onClick={startQuiz}>Start Quiz</button>
+                </div>
+            )}
             {showScore ? (
                 <div>
                     <h1>Your score: {score}/{quizData.length}</h1>
                 </div>
             ) : (
                 <div>
-                    <Question
-                        question={quizData[currentQuestionIndex].question}
-                        options={quizData[currentQuestionIndex].options}
-                        selectedOption={selectedOption}
-                        onOptionSelect={handleOptionSelect}
-                    />
-                    <button onClick={handleNextQuestion}>Next</button>
+                    {timer > 0 && (
+                        <div>
+                            <Question
+                                question={quizData[currentQuestionIndex].question}
+                                options={quizData[currentQuestionIndex].options}
+                                selectedOption={selectedOption}
+                                onOptionSelect={handleOptionSelect}
+                            />
+                            <Timer initialTime={timer} onTimeUp={handleTimeUp} />
+                            <button onClick={handleNextQuestion}>Next</button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
