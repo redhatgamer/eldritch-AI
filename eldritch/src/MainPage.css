@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     background: linear-gradient(to bottom, #000000, #004d00);
     color: #fff;
+    overflow-x: hidden;
 }
 
 .main-container {
@@ -11,23 +12,33 @@ body {
     align-items: center;
     height: 100vh;
     text-align: center;
+    overflow-y: auto;
+    scroll-behavior: smooth;
 }
 
 .header {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 20px;
     position: fixed;
     top: 0;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+
+.header:hover {
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .logo {
     font-size: 1.5em;
     font-weight: bold;
     color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .nav-links {
@@ -39,6 +50,29 @@ body {
     color: #fff;
     text-decoration: none;
     margin: 0 15px;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #fff;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #32cd32;
+}
+
+.nav-links a:hover::before {
+    width: 100%;
+    left: 0;
 }
 
 .discord-btn {
@@ -48,6 +82,12 @@ body {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.discord-btn:hover {
+    background-color: #fff;
+    color: #000;
 }
 
 .content {
@@ -57,18 +97,24 @@ body {
     flex: 1;
     margin-top: 80px;
     width: 100%;
+    padding: 20px;
+    transition: transform 0.3s ease; /* You can remove this line if needed */
 }
 
 .left-content h1 {
     font-size: 3em;
+    margin: 0;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
 .left-content p {
     font-size: 1.2em;
+    margin: 20px 0;
+    animation: fadeIn 2s ease-in-out;
 }
 
 .github-btn {
-    background-color: #8a2be2;
+    background-color: #32cd32;
     border: none;
     color: #fff;
     padding: 10px 20px;
@@ -76,26 +122,35 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.github-btn:hover {
+    background-color: #28a828;
+    transform: scale(1.05);
 }
 
 .right-content .main-logo {
     width: 300px;
     height: auto;
+    animation: zoomIn 2s ease-in-out;
 }
 
 .download-section {
     background-color: #0a0a23;
     width: 100%;
-    padding: 20px;
+    padding: 40px 20px;
     text-align: center;
+    margin: 400px; /* Adjust the value to your desired space */
 }
 
 .download-section p {
     margin: 10px 0;
+    font-size: 1.1em;
 }
 
 .download-buttons button {
-    background-color: #8a2be2;
+    background-color: #32cd32;
     border: none;
     color: #fff;
     padding: 10px 20px;
@@ -103,4 +158,20 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.download-buttons button:hover {
+    background-color: #28a828;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    0% { transform: scale(0.8); }
+    100% { transform: scale(1); }
 }

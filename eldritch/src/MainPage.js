@@ -1,6 +1,7 @@
 import React from 'react';
 import './MainPage.css';
 
+
 function MainPage() {
     return (
         <div className="main-container">
@@ -16,11 +17,11 @@ function MainPage() {
             <div className="content">
                 <div className="left-content">
                     <h1>Eldritch-AI</h1>
-                    <p>The Ultimate Yu-Gi-Oh! Simulator.</p>
+                    <p>The Ultimate Quiz Simulator.</p>
                     <button className="github-btn">View Project on GitHub</button>
                 </div>
                 <div className="right-content">
-                    <img src="path/to/your/image.png" alt="Logo" className="main-logo" />
+                    <img src="" alt="Logo" className="main-logo" />
                 </div>
             </div>
             <div className="download-section">
