@@ -1,177 +1,120 @@
-body {
+/* MainPage.css */
+
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #000000, #004d00);
-    color: #fff;
-    overflow-x: hidden;
+    background-color: #f0f0f0; /* Sets a neutral background for the body */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 .main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
     text-align: center;
-    overflow-y: auto;
-    scroll-behavior: smooth;
+    padding: 20px;
+    max-width: 100%;
+    overflow-x: hidden; /* Ensures no horizontal overflow within this container */
 }
 
 .header {
-    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    transition: background-color 0.3s ease;
-    z-index: 1000;
-}
-
-.header:hover {
-    background-color: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    max-width: 1200px; /* Optional: limits the maximum width for large screens */
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Adds space below the header */
 }
 
 .logo {
-    font-size: 1.5em;
+    font-size: 24px;
     font-weight: bold;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .nav-links {
     display: flex;
-    align-items: center;
+    gap: 20px;
 }
 
 .nav-links a {
-    color: #fff;
     text-decoration: none;
-    margin: 0 15px;
-    position: relative;
-    padding: 5px 0;
-    transition: color 0.3s ease;
-}
-
-.nav-links a::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 50%;
-    background-color: #fff;
-    transition: width 0.3s ease, left 0.3s ease;
-}
-
-.nav-links a:hover {
-    color: #32cd32;
-}
-
-.nav-links a:hover::before {
-    width: 100%;
-    left: 0;
+    color: #333;
+    font-size: 16px;
 }
 
 .discord-btn {
-    background: transparent;
-    border: 1px solid #fff;
-    color: #fff;
-    padding: 5px 10px;
+    padding: 10px 20px;
+    background-color: #7289da;
+    color: white;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.discord-btn:hover {
-    background-color: #fff;
-    color: #000;
 }
 
 .content {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    flex: 1;
-    margin-top: 80px;
     width: 100%;
+    max-width: 1200px; /* Optional: limits the maximum width for large screens */
     padding: 20px;
-    transition: transform 0.3s ease; /* You can remove this line if needed */
+    margin-bottom: 20px; /* Adds space below the content */
 }
 
-.left-content h1 {
-    font-size: 3em;
-    margin: 0;
-    animation: fadeIn 1.5s ease-in-out;
+.left-content {
+    flex: 1;
+    padding-right: 10px;
 }
 
-.left-content p {
-    font-size: 1.2em;
-    margin: 20px 0;
-    animation: fadeIn 2s ease-in-out;
+.right-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
 }
 
-.github-btn {
-    background-color: #32cd32;
-    border: none;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 1em;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.github-btn:hover {
-    background-color: #28a828;
-    transform: scale(1.05);
-}
-
-.right-content .main-logo {
-    width: 300px;
+.main-logo {
+    max-width: 100%;
     height: auto;
-    animation: zoomIn 2s ease-in-out;
 }
 
 .download-section {
-    background-color: transparent;
+    padding: 20px;
+    margin-bottom: 20px; /* Adds space below the download section */
     width: 100%;
-    padding: 40px 20px;
-    text-align: center;
-    margin: 400px; /* Adjust the value to your desired space */
+    max-width: 1200px; /* Optional: limits the maximum width for large screens */
 }
 
-.download-section p {
-    margin: 10px 0;
-    font-size: 1.1em;
+.download-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .download-buttons button {
-    background-color: #32cd32;
-    border: none;
-    color: #fff;
     padding: 10px 20px;
-    font-size: 1em;
+    background-color: #007bff;
+    color: white;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.download-buttons button:hover {
-    background-color: #28a828;
-    transform: scale(1.05);
-}
-
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-@keyframes zoomIn {
-    0% { transform: scale(0.8); }
-    100% { transform: scale(1); }
+.github-btn {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
