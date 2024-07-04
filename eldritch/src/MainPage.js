@@ -1,8 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
 
-
 function MainPage() {
+    const navigate = useNavigate();
+
+    const navigateToQuiz = () => {
+        navigate('/quiz');
+    };
+
     return (
         <div className="main-container">
             <div className="header">
@@ -17,8 +23,9 @@ function MainPage() {
             <div className="content">
                 <div className="left-content">
                     <h1>Eldritch-AI</h1>
-                    <p>The Ultimate Quiz Simulator.</p>
+                    <p>The Ultimate Quiz Simulator</p>
                     <button className="github-btn">View Project on GitHub</button>
+                    <button onClick={navigateToQuiz}>Start Quiz</button>
                 </div>
                 <div className="right-content">
                     <img src="" alt="Logo" className="main-logo" />
