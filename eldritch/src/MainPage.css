@@ -115,9 +115,9 @@ body {
     width: 100%;
     max-width: 1200px;
     padding: 10px 20px;
-    background-color: #f8f9fa;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    margin-bottom: 150px;
 }
 
 .logo {
@@ -132,8 +132,10 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: #333;
+    color: #000; /* Darker color for contrast */
     font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5); /* Slight shadow for readability */
 }
 
 .discord-btn {
@@ -153,6 +155,8 @@ body {
     max-width: 1200px;
     padding: 20px;
     margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    border-radius: 10px;
 }
 
 .left-content {
@@ -176,8 +180,11 @@ body {
 .download-section {
     padding: 20px;
     margin-bottom: 20px;
+    margin-top: 400px; /* Adds space above the download section */
     width: 100%;
     max-width: 1200px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    border-radius: 10px;
 }
 
 .download-buttons {

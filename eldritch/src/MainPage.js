@@ -37,7 +37,7 @@ function MainPage() {
                         <button onClick={navigateToQuiz}>Start Quiz</button>
                     </div>
                     <div className="right-content">
-                        <img src="" alt="Logo" className="main-logo" />
+                        <img src="https://via.placeholder.com/150" alt="Logo" className="main-logo" />
                     </div>
                 </div>
                 <div className="download-section">
