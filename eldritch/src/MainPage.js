@@ -20,7 +20,7 @@ function MainPage() {
                 </div>
             </div>
             <div className="main-container">
-                <div className="header">
+                <header className="header">
                     <div className="logo">Eldritch-AI</div>
                     <nav className="nav-links">
                         <a href="#">Download</a>
@@ -28,19 +28,54 @@ function MainPage() {
                         <a href="#">Donations</a>
                         <button className="discord-btn">Join our Discord</button>
                     </nav>
-                </div>
-                <div className="content">
+                </header>
+                <section className="content">
                     <div className="left-content">
                         <h1>Eldritch-AI</h1>
                         <p>The Ultimate Quiz Simulator.</p>
-                        <button className="github-btn">View Project on GitHub</button>
-                        <button onClick={navigateToQuiz}>Start Quiz</button>
+                        <div className="button-group">
+                            <button className="github-btn">View Project on GitHub</button>
+                            <button className="quiz-btn" onClick={navigateToQuiz}>Start Quiz</button>
+                        </div>
                     </div>
                     <div className="right-content">
                         <img src="https://via.placeholder.com/150" alt="Logo" className="main-logo" />
                     </div>
+                </section>
+                <div className="grid-container">
+                    <section className="features-section">
+                        <h2>Features</h2>
+                        <ul>
+                            <li>AI-Powered Quiz Generation</li>
+                            <li>Customizable Question Sets</li>
+                            <li>Real-Time Feedback</li>
+                            <li>Detailed Performance Analytics</li>
+                            <li>Multi-Language Support</li>
+                        </ul>
+                    </section>
+                    <section className="benefits-section">
+                        <h2>Benefits</h2>
+                        <p>Eldritch-AI enhances learning through adaptive quizzes that cater to individual learning styles. Our platform helps you to:</p>
+                        <ul>
+                            <li>Improve retention with personalized quizzes</li>
+                            <li>Track progress with comprehensive analytics</li>
+                            <li>Engage with interactive and dynamic content</li>
+                            <li>Prepare for exams with confidence</li>
+                        </ul>
+                    </section>
                 </div>
-                <div className="download-section">
+                <section className="testimonials-section">
+                    <h2>Testimonials</h2>
+                    <div className="testimonial">
+                        <p>"Eldritch-AI has transformed the way I study. The adaptive quizzes are spot on!"</p>
+                        <p>- Jane Doe, Student</p>
+                    </div>
+                    <div className="testimonial">
+                        <p>"A fantastic tool for educators. The ability to customize question sets is invaluable."</p>
+                        <p>- John Smith, Teacher</p>
+                    </div>
+                </section>
+                <section className="download-section">
                     <p>DOWNLOAD FOR YOUR SYSTEM:</p>
                     <div className="download-buttons">
                         <button>Windows</button>
@@ -50,7 +85,15 @@ function MainPage() {
                         <button>iOS</button>
                         <button>Premium Themes</button>
                     </div>
-                </div>
+                </section>
+                <footer className="footer">
+                    <p>&copy; 2024 Eldritch-AI. All rights reserved.</p>
+                    <nav className="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Contact Us</a>
+                    </nav>
+                </footer>
             </div>
         </div>
     );
