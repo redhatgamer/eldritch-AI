@@ -5,8 +5,8 @@ import './MainPage.css';
 function MainPage() {
     const navigate = useNavigate();
 
-    const navigateToQuiz = () => {
-        navigate('/quiz');
+    const navigateToTopics = () => {
+        navigate('/topics');
     };
 
     return (
@@ -35,7 +35,7 @@ function MainPage() {
                         <p>The Ultimate Quiz Simulator.</p>
                         <div className="button-group">
                             <button className="github-btn">View Project on GitHub</button>
-                            <button className="quiz-btn" onClick={navigateToQuiz}>Start Quiz</button>
+                            <button className="topics-btn" onClick={navigateToTopics}>Choose Topic</button>
                         </div>
                     </div>
                     <div className="right-content">

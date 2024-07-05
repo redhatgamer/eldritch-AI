@@ -54,48 +54,72 @@ body {
 
 .shape {
     position: absolute;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: moveShapes 80s linear infinite;
+    transform-style: preserve-3d;
+    animation: rotateCube 10s infinite linear;
 }
 
 .shape1 {
-    width: 100px;
-    height: 100px;
     top: 20%;
     left: 15%;
+    width: 100px;
+    height: 100px;
 }
 
 .shape2 {
-    width: 150px;
-    height: 150px;
     top: 50%;
     left: 70%;
+    width: 150px;
+    height: 150px;
 }
 
 .shape3 {
-    width: 200px;
-    height: 200px;
     top: 80%;
     left: 40%;
+    width: 200px;
+    height: 200px;
 }
 
 .shape4 {
-    width: 50px;
-    height: 50px;
     top: 30%;
     left: 90%;
+    width: 50px;
+    height: 50px;
 }
 
-@keyframes moveShapes {
+.cube {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg);
+    animation: rotateCube 20s infinite linear;
+}
+
+.cube div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.cube .front  { transform: translateZ(50px); }
+.cube .back   { transform: rotateY(180deg) translateZ(50px); }
+.cube .left   { transform: rotateY(-90deg) translateZ(50px); }
+.cube .right  { transform: rotateY(90deg) translateZ(50px); }
+.cube .top    { transform: rotateX(90deg) translateZ(50px); }
+.cube .bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+@keyframes rotateCube {
     0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
+        transform: rotateX(0deg) rotateY(0deg);
     }
     50% {
-        transform: translateY(-50px) translateX(50px) rotate(45deg);
+        transform: rotateX(180deg) rotateY(180deg);
     }
     100% {
-        transform: translateY(0) translateX(0) rotate(0deg);
+        transform: rotateX(360deg) rotateY(360deg);
     }
 }
 
@@ -134,9 +158,10 @@ body {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 20px; /* Adjust the gap between the items here */
 }
 
+/* Adjust the styling of the links and the button within the nav-links container */
 .nav-links a, .discord-btn {
     display: flex;
     align-items: center;
@@ -163,8 +188,14 @@ body {
     transition: background-color 0.3s ease;
 }
 
+/* Additional adjustments for the Discord button */
 .discord-btn:hover {
     background-color: #5b6fbd;
+}
+
+/* You can add margin or padding to the .discord-btn to adjust its position further */
+.discord-btn {
+    margin-left: auto; /* This will push the Discord button to the far right */
 }
 
 .content {
