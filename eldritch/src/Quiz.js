@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
 import Question from './Question';
-
-const quizData = [
-    {
-        question: 'What is the capital of France?',
-        options: ['Paris', 'London', 'Berlin', 'Madrid'],
-        answer: 'Paris'
-    },
-    {
-        question: 'What is 2 + 2?',
-        options: ['3', '4', '5', '6'],
-        answer: '4'
-    }
-    // Add more questions as needed
-];
+import DropDown from './typeOfQuestion';
+import { fetchQuizData } from './fetchQuizData';
 
 function Quiz() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState('');
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
+
+    //handling question type and number of Q's
+    const [questionType, setQuestionType] = useState('');   
+    const [quizData, setQuizData] = useState([]);
+    const [numQuestions, setNumQuestions] = useState([]);
+    const [showQuiz, setShowQuiz] = useState(false);
+
+
+    const handleQuestionTypeChange = (selectedValue) => {
+        setQuestionType(selectedValue);
+    };
+
+    const handleNumQuestionChange = (selectedNum) => {
+        setNumQuestions(selectedNum)
+    };
+
+    const handleSubmit = async () => {
+        const data = await fetchQuizData(questionType, numQuestions, 'water');       //hardcoded topic
+        setQuizData(data);
+        setShowQuiz(true);
+    };
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -39,7 +48,27 @@ function Quiz() {
 
     return (
         <div>
-            {showScore ? (
+            {!showQuiz ? (
+                <>
+                    <DropDown
+                        label="Question type:  "
+                        options={["true/false", "Multiple Choice", "Both"]}
+                        onChange={handleQuestionTypeChange}
+                /> <br></br>
+                    <DropDown
+                        label="Number of questions:  "
+                        options={[4, 6, 8]}
+                        onChange={handleNumQuestionChange}
+                /> <br></br>
+
+                    <input
+                        label="mySubmit"
+                        type="button"
+                        value="Start Quiz"
+                        onClick={handleSubmit}
+                    />
+                </>
+            ) :showScore ? (
                 <div>
                     <h1>Your score: {score}/{quizData.length}</h1>
                 </div>

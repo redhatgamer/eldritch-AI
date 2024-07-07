@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const QuestionType = ({ label ,options, onChange }) => {
+    const DropDown = ({ label ,options, onChange }) => {
     const [selectedOption, setSelectedOption] = useState('');
 
     const handleSelectChange = (event) => {
@@ -23,4 +23,4 @@ const QuestionType = ({ label ,options, onChange }) => {
     );
 };
 
-export default QuestionType;
+export default DropDown;
