@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Question from './Question';
-import { fetchQuizData } from './fetchQuizData'; // Adjust the path if necessary
+import { fetchQuizData } from './fetchQuizData'; 
 
 function Quiz({ numQuestions, questionType, topic }) {
     const [quizData, setQuizData] = useState([]);
