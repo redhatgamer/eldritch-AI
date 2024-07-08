@@ -3,10 +3,25 @@ import './App.css';
 import Quiz from './Quiz';
 
 function App() {
-    const [numQuestions, setNumQuestions] = useState(8); // Default to 8 questions
+    const [numQuestions, setNumQuestions] = useState(4);
+    const [questionType, setQuestionType] = useState('multiple choice');
+    const [topic, setTopic] = useState('');
+    const [quizStarted, setQuizStarted] = useState(false);
 
-    const handleSelectChange = (event) => {
+    const handleNumQuestionsChange = (event) => {
         setNumQuestions(parseInt(event.target.value, 10));
+    };
+
+    const handleQuestionTypeChange = (event) => {
+        setQuestionType(event.target.value);
+    };
+
+    const handleTopicChange = (event) => {
+        setTopic(event.target.value);
+    };
+
+    const handleConfirm = () => {
+        setQuizStarted(true);
     };
 
     return (
@@ -14,19 +29,36 @@ function App() {
             <header className="App-header">
                 <h1>Quiz App</h1>
             </header>
-            <div>
-                <label>
-                    Number of Questions:
-                    <select value={numQuestions} onChange={handleSelectChange}>
-                        <option value="8">8</option>
-                        <option value="12">12</option>
-                        <option value="16">16</option>
-                        <option value="20">20</option>
-                    </select>
-                </label>
-                <p>You have selected: {numQuestions} questions</p>
-            </div>
-            <Quiz />
+            {!quizStarted ? (
+                <div>
+                    <label>
+                        Number of Questions:
+                        <select value={numQuestions} onChange={handleNumQuestionsChange}>
+                            <option value="4">4</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                        </select>
+                    </label>
+                    <br />
+                    <label>
+                        Type of Questions:
+                        <select value={questionType} onChange={handleQuestionTypeChange}>
+                            <option value="multiple choice">Multiple Choice</option>
+                            <option value="true/false">True/False</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </label>
+                    <br />
+                    <label>
+                        Topic:
+                        <input type="text" value={topic} onChange={handleTopicChange} />
+                    </label>
+                    <br />
+                    <button onClick={handleConfirm}>Confirm</button>
+                </div>
+            ) : (
+                <Quiz numQuestions={numQuestions} questionType={questionType} topic={topic} />
+            )}
         </div>
     );
 }

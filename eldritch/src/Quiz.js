@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Question from './Question';
+import { fetchQuizData } from './fetchQuizData'; // Adjust the path if necessary
 
-const quizData = [
-    {
-        question: 'What is the capital of France?',
-        options: ['Paris', 'London', 'Berlin', 'Madrid'],
-        answer: 'Paris'
-    },
-    {
-        question: 'Whatttttt is 2 + 2?',
-        options: ['3', '4', '5', '6'],
-        answer: '4'
-    }
-    // Add more questions as needed
-];
-
-function Quiz() {
+function Quiz({ numQuestions, questionType, topic }) {
+    const [quizData, setQuizData] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState('');
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
+
+    useEffect(() => {
+        async function generateQuiz() {
+            try {
+                const data = await fetchQuizData(questionType, numQuestions, topic);
+                setQuizData(data);
+            } catch (error) {
+                console.error("Error fetching quiz data:", error);
+            }
+        }
+        generateQuiz();
+    }, [numQuestions, questionType, topic]);
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -45,12 +45,14 @@ function Quiz() {
                 </div>
             ) : (
                 <div>
-                    <Question
-                        question={quizData[currentQuestionIndex].question}
-                        options={quizData[currentQuestionIndex].options}
-                        selectedOption={selectedOption}
-                        onOptionSelect={handleOptionSelect}
-                    />
+                    {quizData.length > 0 && (
+                        <Question
+                            question={quizData[currentQuestionIndex].question}
+                            options={quizData[currentQuestionIndex].options}
+                            selectedOption={selectedOption}
+                            onOptionSelect={handleOptionSelect}
+                        />
+                    )}
                     <button onClick={handleNextQuestion}>Next</button>
                 </div>
             )}
