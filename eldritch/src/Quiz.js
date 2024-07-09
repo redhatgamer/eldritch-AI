@@ -21,11 +21,16 @@ function Quiz() {
     const [selectedOption, setSelectedOption] = useState('');
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
-    const [timer, setTimer] = useState(0); // Timer state in seconds
-    const [timePerQuestion, setTimePerQuestion] = useState(2 * 60); // Default time per question in seconds (2 minutes)
     const [quizStarted, setQuizStarted] = useState(false);
+    const [timer, setTimer] = useState(0); // Timer state in seconds
+    const [timePerQuestion, setTimePerQuestion] = useState(2 * 60); // Default time per question in seconds
 
-    // Resets the timer and moves to the next question
+    useEffect(() => {
+        if (timer === 0 && quizStarted && currentQuestionIndex < quizData.length) {
+            setTimer(timePerQuestion);
+        }
+    }, [timer, quizStarted, currentQuestionIndex, timePerQuestion]);
+
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
     };
@@ -44,11 +49,9 @@ function Quiz() {
     };
 
     const handleTimeUp = () => {
-        // Mark the current question as incorrect and move to the next question
-        setSelectedOption(''); // Clear selected option
         if (currentQuestionIndex < quizData.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setTimer(timePerQuestion); // Restart the timer
+            setTimer(timePerQuestion); // Restart timer
         } else {
             setShowScore(true);
         }
@@ -56,25 +59,21 @@ function Quiz() {
 
     const handleTimerChange = (event) => {
         const newMinutes = parseInt(event.target.value);
-        setTimePerQuestion(newMinutes * 60); // Convert minutes to seconds for Timer component
+        setTimer(newMinutes * 60); // Convert minutes to seconds for Timer component
+        setTimePerQuestion(newMinutes * 60);
     };
 
     const startQuiz = () => {
-        setTimer(timePerQuestion); // Set the timer for the first question
+        setQuizStarted(true);
+        setTimer(timePerQuestion); // Set timer for the first question
         setCurrentQuestionIndex(0);
         setShowScore(false);
-        setScore(0); // Reset the score
-        setQuizStarted(true); // Mark quiz as started
+        setScore(0);
     };
-
-    useEffect(() => {
-        // Restart timer whenever the current question index changes
-        setTimer(timePerQuestion);
-    }, [currentQuestionIndex]);
 
     return (
         <div>
-            {!quizStarted ? (
+            {!quizStarted && (
                 <div>
                     <label htmlFor="timeInput">Select time per question (minutes):</label>
                     <select id="timeInput" value={timePerQuestion / 60} onChange={handleTimerChange}>
@@ -84,25 +83,24 @@ function Quiz() {
                     </select>
                     <button onClick={startQuiz}>Start Quiz</button>
                 </div>
-            ) : showScore ? (
+            )}
+            {showScore ? (
                 <div>
                     <h1>Your score: {score}/{quizData.length}</h1>
                 </div>
             ) : (
-                <div>
-                    {timer > 0 && (
-                        <div>
-                            <Question
-                                question={quizData[currentQuestionIndex].question}
-                                options={quizData[currentQuestionIndex].options}
-                                selectedOption={selectedOption}
-                                onOptionSelect={handleOptionSelect}
-                            />
-                            <Timer key={currentQuestionIndex} initialTime={timer} onTimeUp={handleTimeUp} />
-                            <button onClick={handleNextQuestion}>Next</button>
-                        </div>
-                    )}
-                </div>
+                quizStarted && (
+                    <div>
+                        <Question
+                            question={quizData[currentQuestionIndex].question}
+                            options={quizData[currentQuestionIndex].options}
+                            selectedOption={selectedOption}
+                            onOptionSelect={handleOptionSelect}
+                        />
+                        <Timer key={currentQuestionIndex} initialTime={timer} onTimeUp={handleTimeUp} />
+                        <button onClick={handleNextQuestion}>Next</button>
+                    </div>
+                )
             )}
         </div>
     );

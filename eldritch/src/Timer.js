@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 
 const Timer = ({ initialTime, onTimeUp }) => {
     const [timeLeft, setTimeLeft] = useState(initialTime);
+    const [warning, setWarning] = useState(false);
 
     useEffect(() => {
-        setTimeLeft(initialTime); // Reset the timeLeft when initialTime changes
+        setTimeLeft(initialTime);
+        setWarning(false);
     }, [initialTime]);
 
     useEffect(() => {
         const timerID = setInterval(() => {
             if (timeLeft > 0) {
                 setTimeLeft(timeLeft - 1);
+                if (timeLeft <= 15) {
+                    setWarning(true);
+                }
             } else {
                 onTimeUp();
                 clearInterval(timerID);
@@ -27,7 +32,7 @@ const Timer = ({ initialTime, onTimeUp }) => {
     };
 
     return (
-        <div>
+        <div className={`timer ${warning ? 'warning' : ''}`}>
             Time Left: {formatTime(timeLeft)}
         </div>
     );
