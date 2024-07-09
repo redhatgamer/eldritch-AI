@@ -1,10 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = "API_KEY";
+const apiKey = "AIzaSyBosuxYhROXTB6XQkFD7mq3JyacuSEpGW4"; // Replace with your actual API key
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
-async function fetchQuestions(questionType, numberOfQuestions, topic) {
+export async function fetchQuizData(questionType, numberOfQuestions, topic) {
     let model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
         generationConfig: { responseMimeType: "application/json" }
@@ -21,18 +21,12 @@ async function fetchQuestions(questionType, numberOfQuestions, topic) {
         ];
     `;
 
-    let result = await model.generateContent(prompt);
-    let quizData = JSON.parse(result.response.text());
-    return quizData;
-}
-
-export async function fetchQuizData(questionType, numberOfQuestions, topic) {
-    if (questionType === "both") {
-        const halfQuestions = Math.floor(numberOfQuestions / 2);
-        const multipleChoiceQuestions = await fetchQuestions('multiple choice', halfQuestions, topic);
-        const trueFalseQuestions = await fetchQuestions('true/false', numberOfQuestions - halfQuestions, topic);
-        return [...multipleChoiceQuestions, ...trueFalseQuestions].sort(() => Math.random() - 0.5); // Randomly shuffle the questions
-    } else {
-        return fetchQuestions(questionType, numberOfQuestions, topic);
+    try {
+        let result = await model.generateContent(prompt);
+        let quizData = JSON.parse(result.response.text());
+        return quizData;
+    } catch (error) {
+        console.error("Error generating content:", error);
+        throw error;
     }
 }
