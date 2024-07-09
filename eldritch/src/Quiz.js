@@ -72,7 +72,7 @@ function Quiz() {
     };
 
     return (
-        <div>
+        <div className="container">
             {!quizStarted && (
                 <div>
                     <label htmlFor="timeInput">Select time per question (minutes):</label>
@@ -85,17 +85,18 @@ function Quiz() {
                 </div>
             )}
             {showScore ? (
-                <div>
+                <div className="score">
                     <h1>Your score: {score}/{quizData.length}</h1>
                 </div>
             ) : (
                 quizStarted && (
-                    <div>
+                    <div className="quiz-content">
                         <Question
                             question={quizData[currentQuestionIndex].question}
                             options={quizData[currentQuestionIndex].options}
                             selectedOption={selectedOption}
                             onOptionSelect={handleOptionSelect}
+                            className="question"
                         />
                         <Timer key={currentQuestionIndex} initialTime={timer} onTimeUp={handleTimeUp} />
                         <button onClick={handleNextQuestion}>Next</button>

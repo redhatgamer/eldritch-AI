@@ -6,7 +6,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>Quiz App</h1>
+                <h1>Eldritch-AI</h1>
             </header>
             <Quiz />
         </div>

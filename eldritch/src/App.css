@@ -1,21 +1,72 @@
+/* General styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #2E2E2E; /* Dark background */
+  color: #ECF0F1; /* Light text */
+  margin: 0;
+  padding: 0;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .App {
   text-align: center;
+  margin: 100px;
+  padding: 100px;
+  box-sizing: border-box;
+}
+
+.App-container {
+  /* width: 80%;
+  max-width: 80px;
+  display:flex; */
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #27AE60; /* Green header */
   padding: 20px;
-  color: white;
+  color: #ECF0F1; /* Light text */
+  border-radius: 10px 10px 0 0;
 }
 
-button {
+.container {
+  padding: 20px;
+  background-color: #34495E; /* Dark card */
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+select, button {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
+  border: none;
+  border-radius: 5px;
+}
+
+select {
+  background-color: #2ECC71; /* Light green background */
+  color: #2E2E2E; /* Dark text */
+}
+
+button {
+  background-color: #2ECC71; /* Light green background */
+  color: #2E2E2E; /* Dark text */
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #27AE60; /* Darker green on hover */
 }
 
 .timer {
   font-size: 20px;
+  padding: 10px;
+  border: 2px solid #2ECC71; /* Light green border */
+  border-radius: 5px;
+  margin: 10px 0;
 }
 
 .timer.warning {
@@ -27,4 +78,39 @@ button {
   0% { opacity: 1; }
   50% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+.question {
+  background-color: #2ECC71; /* Light green background */
+  color: #2E2E2E; /* Dark text */
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  flex-grow: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.option {
+  display: block;
+  margin: 10px;
+  padding: 10px;
+  background-color: #27AE60; /* Green background */
+  color: #ECF0F1; /* Light text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 80%;
+}
+
+.option:hover {
+  background-color: #229954; /* Darker green on hover */
+}
+
+.score {
+  background-color: #2ECC71; /* Light green background */
+  padding: 20px;
+  border-radius: 10px;
 }
