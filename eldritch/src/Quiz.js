@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Question from './Question';
-<<<<<<< HEAD
 import { fetchQuizData } from './fetchQuizData'; 
-=======
 import Timer from './Timer';
->>>>>>> origin/timePerQuestions
 
 function Quiz({ numQuestions, questionType, topic }) {
     const [quizData, setQuizData] = useState([]);
@@ -17,12 +14,6 @@ function Quiz({ numQuestions, questionType, topic }) {
     const [timePerQuestion, setTimePerQuestion] = useState(2 * 60); // Default time per question in seconds
 
     useEffect(() => {
-        if (timer === 0 && quizStarted && currentQuestionIndex < quizData.length) {
-            setTimer(timePerQuestion);
-        }
-    }, [timer, quizStarted, currentQuestionIndex, timePerQuestion]);
-
-    useEffect(() => {
         async function generateQuiz() {
             try {
                 const data = await fetchQuizData(questionType, numQuestions, topic);
@@ -33,6 +24,12 @@ function Quiz({ numQuestions, questionType, topic }) {
         }
         generateQuiz();
     }, [numQuestions, questionType, topic]);
+
+    useEffect(() => {
+        if (timer === 0 && quizStarted && currentQuestionIndex < quizData.length) {
+            setTimer(timePerQuestion);
+        }
+    }, [timer, quizStarted, currentQuestionIndex, timePerQuestion, quizData.length]);
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -92,31 +89,20 @@ function Quiz({ numQuestions, questionType, topic }) {
                     <h1>Your score: {score}/{quizData.length}</h1>
                 </div>
             ) : (
-<<<<<<< HEAD
-                <div>
-                    {quizData.length > 0 && (
-=======
                 quizStarted && (
                     <div className="quiz-content">
->>>>>>> origin/timePerQuestions
-                        <Question
-                            question={quizData[currentQuestionIndex].question}
-                            options={quizData[currentQuestionIndex].options}
-                            selectedOption={selectedOption}
-                            onOptionSelect={handleOptionSelect}
-<<<<<<< HEAD
-                        />
-                    )}
-                    <button onClick={handleNextQuestion}>Next</button>
-                </div>
-=======
-                            className="question"
-                        />
+                        {quizData.length > 0 && (
+                            <Question
+                                question={quizData[currentQuestionIndex].question}
+                                options={quizData[currentQuestionIndex].options}
+                                selectedOption={selectedOption}
+                                onOptionSelect={handleOptionSelect}
+                            />
+                        )}
                         <Timer key={currentQuestionIndex} initialTime={timer} onTimeUp={handleTimeUp} />
                         <button onClick={handleNextQuestion}>Next</button>
                     </div>
                 )
->>>>>>> origin/timePerQuestions
             )}
         </div>
     );

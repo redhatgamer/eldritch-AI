@@ -45,11 +45,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-<<<<<<< HEAD
                 <h1>Quiz! App</h1>
-=======
-                <h1>Eldritch-AI</h1>
->>>>>>> origin/timePerQuestions
             </header>
             {!quizStarted ? (
                 <div>
@@ -81,7 +77,7 @@ function App() {
                         />
                     </label>
                     <br />
-                    {errorMessage && showPopup && (
+                    {showPopup && (
                         <div className="popup">
                             <p>{errorMessage}</p>
                         </div>
