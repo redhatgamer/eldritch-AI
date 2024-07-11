@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './App.css';
 import Quiz from './Quiz';
-
+import { fetchQuizData } from './fetchQuizData';
+//hi
 function App() {
     const [numQuestions, setNumQuestions] = useState(4);
     const [questionType, setQuestionType] = useState('multiple choice');
     const [topic, setTopic] = useState('');
     const [quizStarted, setQuizStarted] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [showPopup, setShowPopup] = useState(false);
 
@@ -20,7 +22,7 @@ function App() {
 
     const handleTopicChange = (event) => {
         const value = event.target.value;
-        const regex = /^[a-zA-Z0-9-]*$/;
+        const regex = /^[a-zA-Z0-9- ]*$/;
         if (value.trim() === '') {
             setErrorMessage('Topic cannot be empty');
         } else if (!regex.test(value)) {
@@ -33,12 +35,27 @@ function App() {
         setTopic(value);
     };
 
-    const handleConfirm = () => {
+    const handleConfirm = async () => {
         if (errorMessage || topic.trim() === '') {
             setShowPopup(true);
-            setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+            setTimeout(() => setShowPopup(false), 3000);
         } else {
-            setQuizStarted(true);
+            setLoading(true);
+            try {
+                const quizData = await fetchQuizData(questionType, numQuestions, topic);
+                if (quizData.error) {
+                    setErrorMessage(quizData.error);
+                    setShowPopup(true);
+                    setTimeout(() => setShowPopup(false), 3000);
+                } else {
+                    setQuizStarted(true);
+                }
+            } catch (error) {
+                setErrorMessage('Failed to fetch quiz data');
+                setShowPopup(true);
+                setTimeout(() => setShowPopup(false), 3000);
+            }
+            setLoading(false);
         }
     };
 
@@ -83,6 +100,7 @@ function App() {
                         </div>
                     )}
                     <button onClick={handleConfirm}>Confirm</button>
+                    {loading && <div className="loading">Generating Questions...</div>}
                 </div>
             ) : (
                 <Quiz numQuestions={numQuestions} questionType={questionType} topic={topic} />

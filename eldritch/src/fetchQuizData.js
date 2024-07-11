@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
+//ho
 const apiKey = "AIzaSyBosuxYhROXTB6XQkFD7mq3JyacuSEpGW4"; // Replace with your actual API key
 
 const genAI = new GoogleGenerativeAI(apiKey);
@@ -15,61 +15,86 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
         let multipleChoiceQuestions = Math.floor(numberOfQuestions / 2);
         let trueFalseQuestions = numberOfQuestions - multipleChoiceQuestions;
 
-        let multipleChoicePrompt = `
-            Please generate ${multipleChoiceQuestions} multiple choice questions about ${topic} in the following JSON format:
-            [
-                {
-                    "question": "Sample question?",
-                    "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
-                    "answer": "Correct Option"
-                }
-            ];
-        `;
-
-        let trueFalsePrompt = `
-            Please generate ${trueFalseQuestions} true/false questions about ${topic} in the following JSON format:
-            [
-                {
-                    "question": "Sample true/false question?",
-                    "options": ["True", "False"],
-                    "answer": "True"
-                }
-            ];
-        `;
-
-        try {
-            let multipleChoiceResult = await model.generateContent(multipleChoicePrompt);
-            let trueFalseResult = await model.generateContent(trueFalsePrompt);
-            let multipleChoiceData = JSON.parse(multipleChoiceResult.response.text());
-            let trueFalseData = JSON.parse(trueFalseResult.response.text());
-            let quizData = shuffle([...multipleChoiceData, ...trueFalseData]);
-            return quizData;
-        } catch (error) {
-            console.error("Error generating content:", error);
-            throw error;
-        }
-    } else {
         prompt = `
-            Please generate ${numberOfQuestions} ${questionType} questions about ${topic} in the following JSON format:
-            [
-                {
-                    "question": "Sample question?",
-                    ${questionType === 'true/false' ? `
-                "options": ["True", "False"],
-                ` : `
-                "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
-                `}
-                    "answer": "Correct Option"
+            Validate the topic "${topic}" to ensure it is not a random combination of letters and that it represents actual words. If the topic is valid, generate ${multipleChoiceQuestions} multiple choice questions and ${trueFalseQuestions} true/false questions in the following JSON format:
+            {
+                "valid": true,
+                "questions": {
+                    "multipleChoice": [
+                        {
+                            "question": "Sample question?",
+                            "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+                            "answer": "Correct Option"
+                        }
+                    ],
+                    "trueFalse": [
+                        {
+                            "question": "Sample true/false question?",
+                            "options": ["True", "False"],
+                            "answer": "True"
+                        }
+                    ]
                 }
-            ];
+            }
+            If the topic is not valid, return:
+            {
+                "valid": false,
+                "error": "Invalid topic"
+            }
         `;
 
         try {
             let result = await model.generateContent(prompt);
-            let quizData = JSON.parse(result.response.text());
+            let responseData = JSON.parse(result.response.text());
+            if (!responseData.valid) {
+                return { error: responseData.error };
+            }
+            let quizData = shuffle([...responseData.questions.multipleChoice, ...responseData.questions.trueFalse]);
             return quizData;
         } catch (error) {
             console.error("Error generating content:", error);
+            if (error.response && error.response.status === 400) {
+                return { error: 'Invalid topic' };
+            }
+            throw error;
+        }
+    } else {
+        prompt = `
+            Validate the topic "${topic}" to ensure it is not a random combination of letters and that it represents actual words. If the topic is valid, generate ${numberOfQuestions} ${questionType} questions in the following JSON format:
+            {
+                "valid": true,
+                "questions": [
+                    {
+                        "question": "Sample question?",
+                        ${questionType === 'true/false' ? `
+                    "options": ["True", "False"],
+                    ` : `
+                    "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+                    `}
+                        "answer": "Correct Option"
+                    }
+                ]
+            }
+            If the topic is not valid, return:
+            {
+                "valid": false,
+                "error": "Invalid topic"
+            }
+        `;
+
+        try {
+            let result = await model.generateContent(prompt);
+            let responseData = JSON.parse(result.response.text());
+            if (!responseData.valid) {
+                return { error: responseData.error };
+            }
+            let quizData = responseData.questions;
+            return quizData;
+        } catch (error) {
+            console.error("Error generating content:", error);
+            if (error.response && error.response.status === 400) {
+                return { error: 'Invalid topic' };
+            }
             throw error;
         }
     }

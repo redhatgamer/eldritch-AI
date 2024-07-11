@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Question from './Question';
 import { fetchQuizData } from './fetchQuizData'; 
 import Timer from './Timer';
-
+//HIIIIII
 function Quiz({ numQuestions, questionType, topic }) {
     const [quizData, setQuizData] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
