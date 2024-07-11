@@ -4,11 +4,25 @@ const apiKey = "AIzaSyCsywwrhOmbSs5z4fqUVSmT65fhHG1TEgg"; // Replace with your a
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
-export async function fetchQuizData(questionType, numberOfQuestions, topic) {
+export async function fetchQuizData(questionType, numberOfQuestions, topic, difficulty) {
     let model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
         generationConfig: { responseMimeType: "application/json" }
     });
+
+    switch (difficulty) {
+        case 'easy':
+            difficulty="middle school level"
+            break;
+        case 'medium': 
+            difficulty = "high school level"
+            break;
+        case 'hard': 
+            difficulty = "college level"
+            break;
+        default:
+            break;
+    }
 
     let prompt;
     if (questionType === 'both') {
@@ -16,7 +30,7 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
         let trueFalseQuestions = numberOfQuestions - multipleChoiceQuestions;
 
         let multipleChoicePrompt = `
-            Please generate ${multipleChoiceQuestions} multiple choice questions about ${topic} in the following JSON format:
+            Please generate ${multipleChoiceQuestions} ${difficulty} multiple choice questions about ${topic},emphasizing the level selected, in the following JSON format:
             [
                 {
                     "question": "Sample question?",
@@ -27,7 +41,7 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
         `;
 
         let trueFalsePrompt = `
-            Please generate ${trueFalseQuestions} true/false questions about ${topic} in the following JSON format:
+            Please generate ${trueFalseQuestions} ${difficulty} true/false questions about ${topic},emphasizing the level selected, in the following JSON format:
             [
                 {
                     "question": "Sample true/false question?",
@@ -50,7 +64,7 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
         }
     } else {
         prompt = `
-            Please generate ${numberOfQuestions} ${questionType} questions about ${topic} in the following JSON format:
+            Please generate ${numberOfQuestions} ${difficulty}, ${questionType} questions about ${topic}, emphasizing the level selected, in the following JSON format:
             [
                 {
                     "question": "Sample question?",

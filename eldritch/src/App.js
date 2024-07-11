@@ -5,6 +5,7 @@ import Quiz from './Quiz';
 function App() {
     const [numQuestions, setNumQuestions] = useState(4);
     const [questionType, setQuestionType] = useState('multiple choice');
+    const [quizDifficulty, setDifficulty] = useState('');
     const [topic, setTopic] = useState('');
     const [quizStarted, setQuizStarted] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -18,6 +19,10 @@ function App() {
     const handleQuestionTypeChange = (event) => {
         setQuestionType(event.target.value);
     };
+
+    const handleDifficultyChange = (event) =>{
+        setDifficulty(event.target.value);
+    }
 
     const handleTopicChange = (event) => {
         const value = event.target.value;
@@ -85,6 +90,16 @@ function App() {
                                         <option value="multiple choice">Multiple Choice</option>
                                         <option value="true/false">True/False</option>
                                         <option value="both">Both</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    Quiz difficulty:
+                                    <select value={quizDifficulty} onChange={handleDifficultyChange}>
+                                        <option value="easy">Easy</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="hard">Hard</option>
                                     </select>
                                 </label>
                             </div>
