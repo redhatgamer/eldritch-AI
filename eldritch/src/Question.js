@@ -5,7 +5,7 @@ function Question({ question, options, selectedOption, onOptionSelect }) {
         <div>
             <h2>{question}</h2>
             {options.map((option, index) => (
-                <div key={index}>
+                <div key={index} className="option-container">
                     <input
                         type="radio"
                         id={`option-${index}`}
@@ -14,7 +14,8 @@ function Question({ question, options, selectedOption, onOptionSelect }) {
                         checked={selectedOption === option}
                         onChange={() => onOptionSelect(option)}
                     />
-                    <label htmlFor={`option-${index}`}>{option}</label>
+                    <label htmlFor={`option-${index}`}></label>
+                    <span>{option}</span>
                 </div>
             ))}
         </div>

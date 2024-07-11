@@ -9,6 +9,7 @@ function App() {
     const [quizStarted, setQuizStarted] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [showPopup, setShowPopup] = useState(false);
+    const [timePerQuestion, setTimePerQuestion] = useState(2 * 60); // Default time per question in seconds
 
     const handleNumQuestionsChange = (event) => {
         setNumQuestions(parseInt(event.target.value, 10));
@@ -33,6 +34,11 @@ function App() {
         setTopic(value);
     };
 
+    const handleTimerChange = (event) => {
+        const newMinutes = parseInt(event.target.value, 10);
+        setTimePerQuestion(newMinutes * 60); // Convert minutes to seconds
+    };
+
     const handleConfirm = () => {
         if (errorMessage || topic.trim() === '') {
             setShowPopup(true);
@@ -45,38 +51,55 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>Quiz! App</h1>
+                <h1>Eldritch</h1>
             </header>
             {!quizStarted ? (
                 <div>
-                    <label>
-                        Number of Questions:
-                        <select value={numQuestions} onChange={handleNumQuestionsChange}>
-                            <option value="4">4</option>
-                            <option value="8">8</option>
-                            <option value="10">10</option>
-                        </select>
-                    </label>
-                    <br />
-                    <label>
-                        Type of Questions:
-                        <select value={questionType} onChange={handleQuestionTypeChange}>
-                            <option value="multiple choice">Multiple Choice</option>
-                            <option value="true/false">True/False</option>
-                            <option value="both">Both</option>
-                        </select>
-                    </label>
-                    <br />
-                    <label>
-                        Topic:
-                        <input
-                            type="text"
-                            value={topic}
-                            onChange={handleTopicChange}
-                            placeholder="Enter the topic for the quiz"
-                        />
-                    </label>
-                    <br />
+                    <div className="dropdown-container-wrapper">
+                        <div className="dropdown-container">
+                             <div>
+                                <label>
+                                         
+                                        <input
+                                            type="text"
+                                            value={topic }
+                                            onChange={handleTopicChange}
+                                            placeholder="Enter the topic for the quiz"
+                                        />
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    Number of Questions: 
+                                    <select value={numQuestions} onChange={handleNumQuestionsChange}>
+                                        <option value="4">4</option>
+                                        <option value="8">8</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    Type of Questions:
+                                    <select value={questionType} onChange={handleQuestionTypeChange}>
+                                        <option value="multiple choice">Multiple Choice</option>
+                                        <option value="true/false">True/False</option>
+                                        <option value="both">Both</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    Select time per question (minutes):
+                                    <select value={timePerQuestion / 60} onChange={handleTimerChange}>
+                                        <option value="2">2</option>
+                                        <option value="5">5</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     {showPopup && (
                         <div className="popup">
                             <p>{errorMessage}</p>
@@ -85,7 +108,7 @@ function App() {
                     <button onClick={handleConfirm}>Confirm</button>
                 </div>
             ) : (
-                <Quiz numQuestions={numQuestions} questionType={questionType} topic={topic} />
+                <Quiz numQuestions={numQuestions} questionType={questionType} topic={topic} timePerQuestion={timePerQuestion} />
             )}
         </div>
     );

@@ -19,9 +19,9 @@ body {
 }
 
 .App-container {
-  /* width: 80%;
+  width: 80%;
   max-width: 80px;
-  display:flex; */
+  display:flex; 
 }
 
 .App-header {
@@ -29,6 +29,8 @@ body {
   padding: 20px;
   color: #ECF0F1; /* Light text */
   border-radius: 10px 10px 0 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
@@ -36,29 +38,6 @@ body {
   background-color: #34495E; /* Dark card */
   border-radius: 0 0 10px 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-select, button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-}
-
-select {
-  background-color: #2ECC71; /* Light green background */
-  color: #2E2E2E; /* Dark text */
-}
-
-button {
-  background-color: #2ECC71; /* Light green background */
-  color: #2E2E2E; /* Dark text */
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #27AE60; /* Darker green on hover */
 }
 
 .timer {
@@ -114,6 +93,7 @@ button:hover {
   padding: 20px;
   border-radius: 10px;
 }
+
 .popup {
   position: fixed;
   top: 20px;
@@ -124,4 +104,100 @@ button:hover {
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
+}
+
+.dropdown-container-wrapper {
+  background-color: #34495E;
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.dropdown-container div {
+  margin: 0 10px 0;
+}
+
+select, button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+}
+
+select {
+  background-color: #2ECC71; /* Light green background */
+  color: #2E2E2E; /* Dark text */
+}
+
+button {
+  background-color: #2ECC71; /* Light green background */
+  color: #2E2E2E; /* Dark text */
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #27AE60; /* Darker green on hover */
+}
+
+input {
+  border-radius: 50px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 200px;
+  background-color: #ECF0F1;
+  align-items: center;
+}
+
+/* Custom checkbox styling */
+input[type="radio"] {
+  display: none; /* Hide the default radio button */
+}
+
+input[type="radio"] + label {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #ECF0F1;
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle; /* Align with text */
+  margin-right: 10px; /* Space between checkbox and text */
+}
+
+input[type="radio"]:checked + label {
+  border-color: #27AE60;
+}
+
+input[type="radio"]:checked + label::before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  background-color: #27AE60;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.option-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center horizontally */
+  margin-bottom: 10px; /* Space between options */
 }
