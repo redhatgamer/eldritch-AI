@@ -1,0 +1,51 @@
+.flashcard {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 8px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #34495E;
+    display: flex;
+    flex-direction: column;
+}
+
+.flashcard-header {
+    background-color: #27AE60;
+    color: white;
+    padding: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    text-align: center;
+}
+
+.flashcard-content {
+    padding: 16px;
+}
+
+.question-label {
+    margin: 0;
+    font-weight: bold;
+}
+
+.flashcard p {
+    margin: 8px 0;
+}
+
+.flashcard strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.quiz-summary {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.quiz-summary h2 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.quiz-summary p {
+    text-align: center;
+}

@@ -12,13 +12,13 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic, diff
 
     switch (difficulty) {
         case 'easy':
-            difficulty="middle school level"
+            difficulty="basic"
             break;
         case 'medium': 
-            difficulty = "high school level"
+            difficulty = "intermediate"
             break;
         case 'hard': 
-            difficulty = "college level"
+            difficulty = "advanced"
             break;
         default:
             break;
