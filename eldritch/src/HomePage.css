@@ -1,0 +1,38 @@
+/* src/HomePage.css */
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    background-size: 400% 400%;
+    animation: gradientBackground 15s ease infinite;
+    color: white;
+    text-align: center;
+  }
+  
+  .home-login-button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #6a11cb;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .home-login-button:hover {
+    background-color: #4b08b5;
+    transform: scale(1.05);
+  }
+  
+  @keyframes gradientBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
