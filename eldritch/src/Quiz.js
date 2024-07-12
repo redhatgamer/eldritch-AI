@@ -3,6 +3,7 @@ import Question from './Question';
 import { fetchQuizData } from './fetchQuizData';
 import Timer from './Timer';
 import QuizSummary from './QuizSummary'; // Import the QuizSummary component
+import LoadingSpinner from './LoadingSpinner'; // Import your loading spinner component
 
 function Quiz({ numQuestions, questionType, topic, timePerQuestion }) {
     const [quizData, setQuizData] = useState([]);
@@ -12,14 +13,18 @@ function Quiz({ numQuestions, questionType, topic, timePerQuestion }) {
     const [showScore, setShowScore] = useState(false);
     const [timer, setTimer] = useState(timePerQuestion); // Timer state in seconds
     const [userAnswers, setUserAnswers] = useState([]); // State to store user's answers
+    const [loading, setLoading] = useState(true); // State to track loading status
 
     useEffect(() => {
         async function generateQuiz() {
             try {
+                setLoading(true); // Set loading to true before fetching
                 const data = await fetchQuizData(questionType, numQuestions, topic);
                 setQuizData(data);
+                setLoading(false); // Set loading to false after fetching
             } catch (error) {
                 console.error("Error fetching quiz data:", error);
+                setLoading(false); // Ensure loading is set to false on error
             }
         }
         generateQuiz();
@@ -64,24 +69,28 @@ function Quiz({ numQuestions, questionType, topic, timePerQuestion }) {
     };
 
     return (
-        React.createElement("div", { className: "container" },
-            showScore ? (
-                React.createElement(QuizSummary, { userAnswers: userAnswers, score: score, totalQuestions: quizData.length })
+        <div className="container">
+            {loading ? (
+                <LoadingSpinner /> // Show loading spinner while fetching data
             ) : (
-                React.createElement("div", { className: "quiz-content" },
-                    quizData.length > 0 && (
-                        React.createElement(Question, {
-                            question: quizData[currentQuestionIndex].question,
-                            options: quizData[currentQuestionIndex].options,
-                            selectedOption: selectedOption,
-                            onOptionSelect: handleOptionSelect
-                        })
-                    ),
-                    React.createElement(Timer, { key: currentQuestionIndex, initialTime: timer, onTimeUp: handleTimeUp }),
-                    React.createElement("button", { onClick: handleNextQuestion }, "Next")
+                showScore ? (
+                    <QuizSummary userAnswers={userAnswers} score={score} totalQuestions={quizData.length} />
+                ) : (
+                    <div className="quiz-content">
+                        {quizData.length > 0 && (
+                            <Question
+                                question={quizData[currentQuestionIndex].question}
+                                options={quizData[currentQuestionIndex].options}
+                                selectedOption={selectedOption}
+                                onOptionSelect={handleOptionSelect}
+                            />
+                        )}
+                        <Timer key={currentQuestionIndex} initialTime={timer} onTimeUp={handleTimeUp} />
+                        <button onClick={handleNextQuestion}>Next</button>
+                    </div>
                 )
-            )
-        )
+            )}
+        </div>
     );
 }
 
