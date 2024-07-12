@@ -1,30 +1,115 @@
 /* src/Profile.css */
 
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
-    color: white;
-    text-align: center;
-  }
-  
-  .logout-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #6a11cb;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .logout-button:hover {
-    background-color: #4b08b5;
-    transform: scale(1.05);
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.profile-details {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.profile-picture {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-form label {
+  margin-bottom: 10px;
+}
+
+.profile-form input {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.update-button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #76B900;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #68a700;
+  transform: scale(1.05);
+}
+
+.message {
+  margin-top: 10px;
+}
+
+.recent-activity {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 300px;
+  text-align: left;
+}
+
+.recent-activity h2 {
+  margin-bottom: 10px;
+}
+
+.recent-activity ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recent-activity li {
+  margin-bottom: 10px;
+}
+
+.home-button, .logout-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.home-button {
+  background-color: #2575fc;
+  color: white;
+}
+
+.home-button:hover {
+  background-color: #1c63d4;
+  transform: scale(1.05);
+}
+
+.logout-button {
+  background-color: #6a11cb;
+  color: white;
+}
+
+.logout-button:hover {
+  background-color: #4b08b5;
+  transform: scale(1.05);
+}
