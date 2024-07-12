@@ -3,10 +3,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './Quiz.css';
 
 const fetchAIQuestions = async (topic) => {
-    // Replace with your API endpoint or AI service call
-    const response = await fetch(`/api/generate-questions?topic=${topic}`);
-    const data = await response.json();
-    return data.questions;
+    try {
+        const response = await fetch(`/questions.json`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.questions;
+    } catch (error) {
+        console.error('Failed to fetch questions:', error);
+        throw error;
+    }
 };
 
 const Question = ({ question, options, selectedOption, onOptionSelect }) => (
@@ -34,13 +41,21 @@ function Quiz() {
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
     const [questions, setQuestions] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const topic = new URLSearchParams(location.search).get('topic');
+    const topic = new URLSearchParams(location.search).get('topic') || 'default';
 
     useEffect(() => {
         const getQuestions = async () => {
-            const fetchedQuestions = await fetchAIQuestions(topic);
-            setQuestions(fetchedQuestions);
+            try {
+                const fetchedQuestions = await fetchAIQuestions(topic);
+                setQuestions(fetchedQuestions);
+                setLoading(false);
+            } catch (error) {
+                setError('Failed to load questions.');
+                setLoading(false);
+            }
         };
         getQuestions();
     }, [topic]);
@@ -65,6 +80,14 @@ function Quiz() {
         navigate('/');
     };
 
+    if (loading) {
+        return <div>Loading questions...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     return (
         <div className="quiz-container">
             {showScore ? (
@@ -81,11 +104,11 @@ function Quiz() {
                             selectedOption={selectedOption}
                             onOptionSelect={handleOptionSelect}
                         />
-                        <button onClick={handleNextQuestion}>Next</button>
-                        <button onClick={handleBackToHome} className="back-btn">Back to Home</button>
+                        <button type="button" onClick={handleNextQuestion}>Next</button>
+                        <button type="button" onClick={handleBackToHome} className="back-btn">Back to Home</button>
                     </div>
                 ) : (
-                    <p>Loading questions...</p>
+                    <div>No questions available.</div>
                 )
             )}
         </div>

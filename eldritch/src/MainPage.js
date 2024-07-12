@@ -5,8 +5,8 @@ import './MainPage.css';
 function MainPage() {
     const navigate = useNavigate();
 
-    const navigateToTopics = () => {
-        navigate('/topics');
+    const navigateToQuiz = () => {
+        navigate('/quiz');
     };
 
     return (
@@ -35,7 +35,7 @@ function MainPage() {
                         <p>The Ultimate Quiz Simulator.</p>
                         <div className="button-group">
                             <button className="github-btn">View Project on GitHub</button>
-                            <button className="topics-btn" onClick={navigateToTopics}>Choose Topic</button>
+                            <button className="topics-btn" onClick={navigateToQuiz}>Choose Quiz</button>
                         </div>
                     </div>
                     <div className="right-content">
@@ -64,17 +64,6 @@ function MainPage() {
                         </ul>
                     </section>
                 </div>
-                <section className="testimonials-section">
-                    <h2>Testimonials</h2>
-                    <div className="testimonial">
-                        <p>"Eldritch-AI has transformed the way I study. The adaptive quizzes are spot on!"</p>
-                        <p>- Jane Doe, Student</p>
-                    </div>
-                    <div className="testimonial">
-                        <p>"A fantastic tool for educators. The ability to customize question sets is invaluable."</p>
-                        <p>- John Smith, Teacher</p>
-                    </div>
-                </section>
                 <section className="download-section">
                     <p>DOWNLOAD FOR YOUR SYSTEM:</p>
                     <div className="download-buttons">
