@@ -1,58 +1,115 @@
-import React, { useState } from 'react';
-import Question from './Question';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import './Quiz.css';
 
-const quizData = [
-    {
-        question: 'What is the capital of France?',
-        options: ['Paris', 'London', 'Berlin', 'Madrid'],
-        answer: 'Paris'
-    },
-    {
-        question: 'What is 2 + 2?',
-        options: ['3', '4', '5', '6'],
-        answer: '4'
+const fetchAIQuestions = async (topic) => {
+    try {
+        const response = await fetch(`/questions.json`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.questions;
+    } catch (error) {
+        console.error('Failed to fetch questions:', error);
+        throw error;
     }
-    // Add more questions as needed
-];
+};
+
+const Question = ({ question, options, selectedOption, onOptionSelect }) => (
+    <div className="question-container">
+        <h2>{question}</h2>
+        {options.map((option) => (
+            <div key={option}>
+                <input
+                    type="radio"
+                    value={option}
+                    checked={selectedOption === option}
+                    onChange={() => onOptionSelect(option)}
+                />
+                {option}
+            </div>
+        ))}
+    </div>
+);
 
 function Quiz() {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState('');
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
+    const [questions, setQuestions] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const topic = new URLSearchParams(location.search).get('topic') || 'default';
+
+    useEffect(() => {
+        const getQuestions = async () => {
+            try {
+                const fetchedQuestions = await fetchAIQuestions(topic);
+                setQuestions(fetchedQuestions);
+                setLoading(false);
+            } catch (error) {
+                setError('Failed to load questions.');
+                setLoading(false);
+            }
+        };
+        getQuestions();
+    }, [topic]);
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
     };
 
     const handleNextQuestion = () => {
-        if (selectedOption === quizData[currentQuestionIndex].answer) {
+        if (selectedOption === questions[currentQuestionIndex].answer) {
             setScore(score + 1);
         }
         setSelectedOption('');
-        if (currentQuestionIndex < quizData.length - 1) {
+        if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
             setShowScore(true);
         }
     };
 
+    const handleBackToHome = () => {
+        navigate('/');
+    };
+
+    if (loading) {
+        return <div>Loading questions...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     return (
-        <div>
+        <div className="quiz-container">
             {showScore ? (
-                <div>
-                    <h1>Your score: {score}/{quizData.length}</h1>
+                <div className="score-container">
+                    <h1>Your score: {score}/{questions.length}</h1>
+                    <button onClick={handleBackToHome}>Back to Home</button>
                 </div>
             ) : (
-                <div>
-                    <Question
-                        question={quizData[currentQuestionIndex].question}
-                        options={quizData[currentQuestionIndex].options}
-                        selectedOption={selectedOption}
-                        onOptionSelect={handleOptionSelect}
-                    />
-                    <button onClick={handleNextQuestion}>Next</button>
-                </div>
+                questions.length > 0 ? (
+                    <div className="question-wrapper">
+                        <Question
+                            question={questions[currentQuestionIndex].question}
+                            options={questions[currentQuestionIndex].options}
+                            selectedOption={selectedOption}
+                            onOptionSelect={handleOptionSelect}
+                        />
+                        <button type="button" onClick={handleNextQuestion}>Next</button>
+                        <button type="button" onClick={handleBackToHome} className="back-btn">Back to Home</button>
+                    </div>
+                ) : (
+                    <div>No questions available.</div>
+                )
             )}
         </div>
     );

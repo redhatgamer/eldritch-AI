@@ -1,0 +1,70 @@
+.quiz-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+    min-height: 100vh; /* Ensures the quiz container takes up full height */
+    background-color: black; /* Adds a background color for better visual separation */
+}
+
+.question-container {
+    margin-bottom: 20px;
+}
+
+.question-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: grey; /* Adds a white background to the question wrapper */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for better separation */
+    width: 100%;
+    max-width: 600px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.score-container {
+    margin-top: 20px;
+    background: grey;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.back-btn {
+    margin-top: 20px;
+    background-color: #ff5733; /* Different color for the back button */
+}
+
+.back-btn:hover {
+    background-color: #cc4626;
+}
