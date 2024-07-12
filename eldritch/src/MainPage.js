@@ -32,7 +32,7 @@ function MainPage() {
                 <section className="content">
                     <div className="left-content">
                         <h1>Eldritch-AI</h1>
-                        <p>The Ultimate Quiz Simulator.</p>
+                        <p>The Ultimate Quiz Simulator</p>
                         <div className="button-group">
                             <button className="github-btn">View Project on GitHub</button>
                             <button className="topics-btn" onClick={navigateToQuiz}>Choose Quiz</button>
