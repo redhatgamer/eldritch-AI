@@ -1,8 +1,8 @@
 // src/Profile.js
 
 import React, { useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, updateUserProfile } from './firebase';
+import { useAuthState } from 'react-firebase-hooks/auth'; // Correct import
+import { auth, updateUserProfile } from './firebase.js'; // Add .js extension
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
