@@ -5,17 +5,17 @@ const apiKey = "AIzaSyCsywwrhOmbSs5z4fqUVSmT65fhHG1TEgg"; // Replace with your a
 const genAI = new GoogleGenerativeAI(apiKey);
 
 export async function fetchQuizData(questionType, numberOfQuestions, topic) {
-    let model = genAI.getGenerativeModel({
+    const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
         generationConfig: { responseMimeType: "application/json" }
     });
 
     let prompt;
     if (questionType === 'both') {
-        let multipleChoiceQuestions = Math.floor(numberOfQuestions / 2);
-        let trueFalseQuestions = numberOfQuestions - multipleChoiceQuestions;
+        const multipleChoiceQuestions = Math.floor(numberOfQuestions / 2);
+        const trueFalseQuestions = numberOfQuestions - multipleChoiceQuestions;
 
-        let multipleChoicePrompt = `
+        const multipleChoicePrompt = `
             Please generate ${multipleChoiceQuestions} multiple choice questions about ${topic} in the following JSON format:
             [
                 {
@@ -26,7 +26,7 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
             ];
         `;
 
-        let trueFalsePrompt = `
+        const trueFalsePrompt = `
             Please generate ${trueFalseQuestions} true/false questions about ${topic} in the following JSON format:
             [
                 {
@@ -38,11 +38,14 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
         `;
 
         try {
-            let multipleChoiceResult = await model.generateContent(multipleChoicePrompt);
-            let trueFalseResult = await model.generateContent(trueFalsePrompt);
-            let multipleChoiceData = JSON.parse(multipleChoiceResult.response.text());
-            let trueFalseData = JSON.parse(trueFalseResult.response.text());
-            let quizData = shuffle([...multipleChoiceData, ...trueFalseData]);
+            const [multipleChoiceResult, trueFalseResult] = await Promise.all([
+                model.generateContent(multipleChoicePrompt),
+                model.generateContent(trueFalsePrompt)
+            ]);
+
+            const multipleChoiceData = JSON.parse(multipleChoiceResult.response.text());
+            const trueFalseData = JSON.parse(trueFalseResult.response.text());
+            const quizData = shuffle([...multipleChoiceData, ...trueFalseData]);
             return quizData;
         } catch (error) {
             console.error("Error generating content:", error);
@@ -55,18 +58,18 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
                 {
                     "question": "Sample question?",
                     ${questionType === 'true/false' ? `
-                "options": ["True", "False"],
-                ` : `
-                "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
-                `}
+                    "options": ["True", "False"],
+                    ` : `
+                    "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+                    `}
                     "answer": "Correct Option"
                 }
             ];
         `;
 
         try {
-            let result = await model.generateContent(prompt);
-            let quizData = JSON.parse(result.response.text());
+            const result = await model.generateContent(prompt);
+            const quizData = JSON.parse(result.response.text());
             return quizData;
         } catch (error) {
             console.error("Error generating content:", error);

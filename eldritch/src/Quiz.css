@@ -121,3 +121,95 @@ h1 {
         font-size: 1em;
     }
 }
+
+/* Container for the quiz */
+.quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual question container */
+.quiz-question {
+    margin-bottom: 20px;
+}
+
+/* Question text */
+.quiz-question p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333; /* Ensure question text is dark */
+}
+
+/* List of options */
+.quiz-question ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Individual option */
+.quiz-question li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    color: #333; /* Ensure option text is dark */
+}
+
+/* Hover effect for options */
+.quiz-question li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Selected option */
+.quiz-question li.selected {
+    background-color: #d0f0d0;
+    border-color: #a0d0a0;
+    color: #333; /* Ensure selected option text is dark */
+}
+
+/* Navigation buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.navigation-buttons button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.navigation-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.navigation-buttons button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+/* Popup styling */
+.popup {
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #ffdddd;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+    border-radius: 4px;
+    width: fit-content;
+    text-align: center;
+}
+
+
