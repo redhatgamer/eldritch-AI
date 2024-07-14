@@ -14,6 +14,7 @@ function Quiz() {
     const [quizStarted, setQuizStarted] = useState(false); // State to manage quiz start
     const [selectedAnswers, setSelectedAnswers] = useState({}); // State to store selected answers
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // State to manage the current question index
+    const [quizCompleted, setQuizCompleted] = useState(false); // State to manage quiz completion
 
     const handleNumQuestionsChange = (event) => {
         setNumQuestions(parseInt(event.target.value, 10));
@@ -73,6 +74,8 @@ function Quiz() {
     const handleNextQuestion = () => {
         if (currentQuestionIndex < quizData.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+            setQuizCompleted(true); // Mark quiz as completed if it's the last question
         }
     };
 
@@ -82,7 +85,16 @@ function Quiz() {
         }
     };
 
-    // Function to render the current quiz question
+    const calculateScore = () => {
+        let score = 0;
+        quizData.forEach((question, index) => {
+            if (selectedAnswers[index] !== undefined && question.options[selectedAnswers[index]] === question.answer) {
+                score += 1;
+            }
+        });
+        return score;
+    };
+
     const renderCurrentQuestion = () => {
         if (!quizData || currentQuestionIndex >= quizData.length) return null;
 
@@ -104,8 +116,27 @@ function Quiz() {
                 </ul>
                 <div className="navigation-buttons">
                     <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</button>
-                    <button onClick={handleNextQuestion} disabled={currentQuestionIndex === quizData.length - 1}>Next</button>
+                    <button onClick={handleNextQuestion}>{currentQuestionIndex === quizData.length - 1 ? 'Submit' : 'Next'}</button>
                 </div>
+            </div>
+        );
+    };
+
+    const renderSummary = () => {
+        const score = calculateScore();
+        return (
+            <div className="quiz-summary">
+                <h2>Quiz Summary</h2>
+                <p>You scored {score} out of {quizData.length}.</p>
+                <ul>
+                    {quizData.map((question, index) => (
+                        <li key={index}>
+                            <p>{question.question}</p>
+                            <p>Your answer: {question.options[selectedAnswers[index]]}</p>
+                            <p>Correct answer: {question.answer}</p>
+                        </li>
+                    ))}
+                </ul>
             </div>
         );
     };
@@ -164,6 +195,8 @@ function Quiz() {
                     )}
                     <button onClick={handleConfirm}>Confirm</button>
                 </div>
+            ) : quizCompleted ? (
+                renderSummary()
             ) : (
                 renderCurrentQuestion()
             )}
