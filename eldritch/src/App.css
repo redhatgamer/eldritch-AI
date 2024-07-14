@@ -2,19 +2,187 @@
 
 /* Existing styles */
 .App {
+/* General styling */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto Mono', monospace;
+  background-color: #2E2E2E; 
+  color: #ECF0F1;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.App { /*where everything is */
+  text-align: center;
+  margin: 85px;
+  padding: 85px;
+  box-sizing: border-box;
+}
+
+.App-container {
+  width: 80%;
+  max-width: 50px;
+  display: flex; 
+}
+
+.App-header { /*eldritch box */
+  background-color: #27AE60; 
+  padding: 5px;
+  color: #ECF0F1;
+  border-radius: 10px 10px 0 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.container { /*after quiz starts, the box where question + ansers are*/
+  padding: 25px;
+  background-color: #34495E;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.score { 
+  background-color: #2ECC71;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.popup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.dropdown-container-wrapper { /*on the eldritch page, the box that has all the dropdowns*/
+  background-color: #34495E;
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
+select, button { /*drop-down styling */
+  margin-top: 10px;
+  padding: 3px 3px;
+  font-size: 15px;
+  font-family: 'Roboto Mono', monospace;
+  border: none;
+  border-radius: 5px;
+}
+
+select { /*inside drop-down*/
+  background-color: #2ECC71; 
+  color: #2E2E2E; 
+}
+
+button { /*next button */
+  background-color: #2ECC71; 
+  color: #2E2E2E; 
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #27AE60; 
+}
+
+input { /*Enter topic bubble */
+  border-radius: 50px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 250px;
+  background-color: #ECF0F1;
+  text-align: center; 
+  color: #2E2E2E; 
+  font-size: 15px;
+  font-family: 'Roboto Mono', monospace;
+}
+
+input::placeholder {
+  color: #2E2E2E; 
+  opacity: 0.6;
+}
+
+/* Timer styling */
+.timer {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.timer.warning {
+  color: red;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Question and options styling */
+.question-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.options-container { /*answer boxes*/
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.option-box { /*inside box styling*/
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  text-align: center;
+  font-size: 17px;
+}
+
+.option-box:hover {
+  background-color: #27AE60;
+  border-color: #bbb;
+}
+
+.option-box.selected {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+}
+
+@media (max-width: 400px) {
+  .options-container {
+    grid-template-columns: 2fr;
+  }
+
+  .option-box {
+    width: 80%;
+    margin-bottom: 10px;
+  }
 }
 
 .profile-container {

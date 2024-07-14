@@ -1,20 +1,21 @@
 import React from 'react';
+import './App.css';
 
 function Question({ question, options, selectedOption, onOptionSelect }) {
     return (
-        <div>
+        <div className="question-container">
             <h2>{question}</h2>
-            {options.map((option) => (
-                <div key={option}>
-                    <input
-                        type="radio"
-                        value={option}
-                        checked={selectedOption === option}
-                        onChange={() => onOptionSelect(option)}
-                    />
-                    {option}
-                </div>
-            ))}
+            <div className="options-container">
+                {options.map((option, index) => (
+                    <div 
+                        key={index} 
+                        className={`option-box ${selectedOption === option ? 'selected' : ''}`}
+                        onClick={() => onOptionSelect(option)}
+                    >
+                        {option}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
