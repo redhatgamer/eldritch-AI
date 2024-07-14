@@ -1,116 +1,110 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import './Quiz.css';
 
-const fetchAIQuestions = async (topic) => {
-    try {
-        const response = await fetch(`/questions.json`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data.questions;
-    } catch (error) {
-        console.error('Failed to fetch questions:', error);
-        throw error;
-    }
-};
-
-const Question = ({ question, options, selectedOption, onOptionSelect }) => (
-    <div className="question-container">
-        <h2>{question}</h2>
-        {options.map((option) => (
-            <div key={option}>
-                <input
-                    type="radio"
-                    value={option}
-                    checked={selectedOption === option}
-                    onChange={() => onOptionSelect(option)}
-                />
-                {option}
-            </div>
-        ))}
-    </div>
-);
-
 function Quiz() {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [selectedOption, setSelectedOption] = useState('');
-    const [score, setScore] = useState(0);
-    const [showScore, setShowScore] = useState(false);
-    const [questions, setQuestions] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [numQuestions, setNumQuestions] = useState(4);
+    const [questionType, setQuestionType] = useState('multiple choice');
+    const [topic, setTopic] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
+    const [timePerQuestion, setTimePerQuestion] = useState(2 * 60); // Default time per question in seconds
 
-    const topic = new URLSearchParams(location.search).get('topic') || 'default';
-
-    useEffect(() => {
-        const getQuestions = async () => {
-            try {
-                const fetchedQuestions = await fetchAIQuestions(topic);
-                setQuestions(fetchedQuestions);
-                setLoading(false);
-            } catch (error) {
-                setError('Failed to load questions.');
-                setLoading(false);
-            }
-        };
-        getQuestions();
-    }, [topic]);
-
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
+    const handleNumQuestionsChange = (event) => {
+        setNumQuestions(parseInt(event.target.value, 10));
     };
 
-    const handleNextQuestion = () => {
-        if (selectedOption === questions[currentQuestionIndex].answer) {
-            setScore(score + 1);
-        }
-        setSelectedOption('');
-        if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
+    const handleQuestionTypeChange = (event) => {
+        setQuestionType(event.target.value);
+    };
+
+    const handleTopicChange = (event) => {
+        const value = event.target.value;
+        const regex = /^[a-zA-Z0-9-]*$/;
+        if (value.trim() === '') {
+            setErrorMessage('Topic cannot be empty');
+        } else if (!regex.test(value)) {
+            setErrorMessage('Topic contains invalid characters');
+        } else if (value.length < 3 || value.length > 30) {
+            setErrorMessage('Topic must be between 3 and 30 characters');
         } else {
-            setShowScore(true);
+            setErrorMessage('');
+        }
+        setTopic(value);
+    };
+
+    const handleTimerChange = (event) => {
+        const newMinutes = parseInt(event.target.value, 10);
+        setTimePerQuestion(newMinutes * 60); // Convert minutes to seconds
+    };
+
+    const handleConfirm = () => {
+        if (errorMessage || topic.trim() === '') {
+            setShowPopup(true);
+            setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+        } else {
+            // Logic to start the quiz goes here
+            console.log('Quiz started with the following settings:', {
+                numQuestions,
+                questionType,
+                topic,
+                timePerQuestion,
+            });
         }
     };
-
-    const handleBackToHome = () => {
-        navigate('/');
-    };
-
-    if (loading) {
-        return <div>Loading questions...</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
-    }
 
     return (
-        <div className="quiz-container">
-            {showScore ? (
-                <div className="score-container">
-                    <h1>Your score: {score}/{questions.length}</h1>
-                    <button onClick={handleBackToHome}>Back to Home</button>
-                </div>
-            ) : (
-                questions.length > 0 ? (
-                    <div className="question-wrapper">
-                        <Question
-                            question={questions[currentQuestionIndex].question}
-                            options={questions[currentQuestionIndex].options}
-                            selectedOption={selectedOption}
-                            onOptionSelect={handleOptionSelect}
-                        />
-                        <button type="button" onClick={handleNextQuestion}>Next</button>
-                        <button type="button" onClick={handleBackToHome} className="back-btn">Back to Home</button>
+        <div>
+            <div className="dropdown-container-wrapper">
+                <div className="dropdown-container">
+                    <div>
+                        <label>
+                            Topic:
+                            <input
+                                type="text"
+                                value={topic}
+                                onChange={handleTopicChange}
+                                placeholder="Enter the topic for the quiz"
+                            />
+                        </label>
                     </div>
-                ) : (
-                    <div>No questions available.</div>
-                )
+                    <div>
+                        <label>
+                            Number of Questions:
+                            <select value={numQuestions} onChange={handleNumQuestionsChange}>
+                                <option value="4">4</option>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Type of Questions:
+                            <select value={questionType} onChange={handleQuestionTypeChange}>
+                                <option value="multiple choice">Multiple Choice</option>
+                                <option value="true/false">True/False</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Select time per question (minutes):
+                            <select value={timePerQuestion / 60} onChange={handleTimerChange}>
+                                <option value="2">2</option>
+                                <option value="5">5</option>
+                                <option value="8">8</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            {showPopup && (
+                <div className="popup">
+                    <p>{errorMessage}</p>
+                </div>
             )}
+            <button onClick={handleConfirm}>Confirm</button>
         </div>
     );
 }
