@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, updateUserProfile } from './firebase';
-import { signOut } from 'firebase/auth';
+import { auth, updateUserProfile, signOut } from './firebase';
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, updateProfile } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -30,4 +30,4 @@ const updateUserProfile = (profile) => {
     throw new Error('No user is signed in');
   };
 
-export { auth, updateUserProfile };
+export { auth, updateUserProfile, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut };
