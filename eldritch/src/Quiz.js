@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import './Quiz.css';
 import { fetchQuizData } from './fetchQuizData'; // Import the fetchQuizData function
 
@@ -15,6 +14,23 @@ function Quiz() {
     const [selectedAnswers, setSelectedAnswers] = useState({}); // State to store selected answers
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // State to manage the current question index
     const [quizCompleted, setQuizCompleted] = useState(false); // State to manage quiz completion
+    const [timeLeft, setTimeLeft] = useState(timePerQuestion); // State for the timer
+    const [showFeedback, setShowFeedback] = useState(false); // State to show feedback
+    const [points, setPoints] = useState(0); // State to track points
+    const [achievements, setAchievements] = useState([]); // State to track achievements
+
+    useEffect(() => {
+        if (quizStarted && !quizCompleted) {
+            const timer = setTimeout(() => {
+                if (timeLeft > 0) {
+                    setTimeLeft(timeLeft - 1);
+                } else {
+                    handleNextQuestion();
+                }
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [quizStarted, quizCompleted, timeLeft]);
 
     const handleNumQuestionsChange = (event) => {
         setNumQuestions(parseInt(event.target.value, 10));
@@ -42,6 +58,7 @@ function Quiz() {
     const handleTimerChange = (event) => {
         const newMinutes = parseInt(event.target.value, 10);
         setTimePerQuestion(newMinutes * 60); // Convert minutes to seconds
+        setTimeLeft(newMinutes * 60); // Update the timer
     };
 
     const handleConfirm = async () => {
@@ -54,6 +71,7 @@ function Quiz() {
                 const data = await fetchQuizData(questionType, numQuestions, topic);
                 setQuizData(data); // Store the quiz data
                 setQuizStarted(true); // Set the quiz as started
+                setTimeLeft(timePerQuestion); // Initialize the timer
                 console.log('Quiz created successfully:', data);
             } catch (error) {
                 console.error('Error creating quiz:', error);
@@ -65,15 +83,30 @@ function Quiz() {
     };
 
     const handleOptionClick = (optionIndex) => {
+        const question = quizData[currentQuestionIndex];
+        const correct = question.options[optionIndex] === question.answer;
+        console.log('Selected Option:', question.options[optionIndex]);
+        console.log('Correct Answer:', question.answer);
         setSelectedAnswers({
             ...selectedAnswers,
             [currentQuestionIndex]: optionIndex,
         });
+        setPoints(points + (correct ? 10 : 0)); // Award points for correct answers
+        setShowFeedback(true);
+        setTimeout(() => {
+            setShowFeedback(false);
+            handleNextQuestion();
+        }, 1000); // Show feedback for 1 second before moving to the next question
+
+        if (correct && points >= 50) {
+            setAchievements([...achievements, '50 Points Achieved!']);
+        }
     };
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < quizData.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
+            setTimeLeft(timePerQuestion); // Reset the timer
         } else {
             setQuizCompleted(true); // Mark quiz as completed if it's the last question
         }
@@ -82,6 +115,7 @@ function Quiz() {
     const handlePreviousQuestion = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
+            setTimeLeft(timePerQuestion); // Reset the timer
         }
     };
 
@@ -116,7 +150,29 @@ function Quiz() {
                 </ul>
                 <div className="navigation-buttons">
                     <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</button>
-                    <button onClick={handleNextQuestion}>{currentQuestionIndex === quizData.length - 1 ? 'Submit' : 'Next'}</button>
+                    <button onClick={handleNextQuestion} disabled={currentQuestionIndex === quizData.length - 1 && !showFeedback}>Next</button>
+                </div>
+                <div className="progress-bar">
+                    <div
+                        className="progress"
+                        style={{ width: `${((currentQuestionIndex + 1) / quizData.length) * 100}%` }}
+                    ></div>
+                </div>
+                <div className="timer">
+                    Time left: {Math.floor(timeLeft / 60)}:{('0' + (timeLeft % 60)).slice(-2)}
+                </div>
+                {showFeedback && (
+                    <div className={`feedback ${selectedAnswers[currentQuestionIndex] !== undefined && quizData[currentQuestionIndex].options[selectedAnswers[currentQuestionIndex]] === question.answer ? 'correct' : 'incorrect'}`}>
+                        {selectedAnswers[currentQuestionIndex] !== undefined && quizData[currentQuestionIndex].options[selectedAnswers[currentQuestionIndex]] === question.answer ? 'Correct!' : 'Incorrect!'}
+                    </div>
+                )}
+                <div className="points">
+                    Points: {points}
+                </div>
+                <div className="achievements">
+                    {achievements.map((achievement, index) => (
+                        <div key={index} className="achievement">{achievement}</div>
+                    ))}
                 </div>
             </div>
         );
@@ -128,6 +184,7 @@ function Quiz() {
             <div className="quiz-summary">
                 <h2>Quiz Summary</h2>
                 <p>You scored {score} out of {quizData.length}.</p>
+                <p>Total Points: {points}</p>
                 <ul>
                     {quizData.map((question, index) => (
                         <li key={index}>
@@ -187,13 +244,13 @@ function Quiz() {
                                 </select>
                             </label>
                         </div>
+                        {showPopup && (
+                            <div className="popup">
+                                <p>{errorMessage}</p>
+                            </div>
+                        )}
+                        <button className="confirm-button" onClick={handleConfirm}>Confirm</button>
                     </div>
-                    {showPopup && (
-                        <div className="popup">
-                            <p>{errorMessage}</p>
-                        </div>
-                    )}
-                    <button onClick={handleConfirm}>Confirm</button>
                 </div>
             ) : quizCompleted ? (
                 renderSummary()

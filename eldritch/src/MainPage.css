@@ -7,9 +7,16 @@ body {
     font-family: 'Roboto Mono', monospace, Arial, Helvetica, sans-serif;
     background: #1c1c1c;
     color: #fff;
+    overflow-x: hidden;
 }
 
-.main-page .background {
+.main-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.background {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -19,7 +26,7 @@ body {
     z-index: -1;
 }
 
-.main-page .shapes .shape {
+.shapes .shape {
     position: absolute;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
@@ -67,6 +74,7 @@ body {
 }
 
 .main-container {
+    flex: 1;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -78,16 +86,15 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background: #3a3a3a; /* Dark Grey */
+    background: #3a3a3a;
     border: 1px solid #444;
-    border-radius: 0; /* Make it rectangular */
     margin-bottom: 20px;
 }
 
 .header .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #76B900; /* NVIDIA Green */
+    color: #76B900;
     transition: color 0.3s ease;
 }
 
@@ -107,11 +114,11 @@ body {
 
 .nav-links a:hover,
 .nav-links button:hover {
-    color: #76B900; /* NVIDIA Green */
+    color: #76B900;
 }
 
 .nav-links button {
-    background: #76B900; /* NVIDIA Green */
+    background: #76B900;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
@@ -129,7 +136,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 50px 20px;
-    flex-wrap: wrap; /* For responsive design */
+    flex-wrap: wrap;
 }
 
 .left-content {
@@ -160,16 +167,16 @@ body {
 .button-group {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; /* For responsive design */
+    flex-wrap: wrap;
 }
 
 .button-group .github-btn,
-.button-group .topics-btn {
-    background: #76B900; /* NVIDIA Green */
+.button-group .topics-btn,
+.button-group .profile-btn {
+    background: #76B900;
     color: #fff;
     border: none;
     padding: 15px 30px;
-    margin-left: 50px;
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
@@ -177,10 +184,11 @@ body {
 }
 
 .button-group .github-btn:hover,
-.button-group .topics-btn:hover {
-    background: #68a700; /* Darker Green on Hover */
+.button-group .topics-btn:hover,
+.button-group .profile-btn:hover {
+    background: #68a700;
     transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(104, 167, 0, 0.5); /* Glow Effect */
+    box-shadow: 0 0 10px rgba(104, 167, 0, 0.5);
 }
 
 .right-content {
@@ -204,18 +212,18 @@ body {
     display: flex;
     justify-content: space-around;
     padding: 50px 20px;
-    flex-wrap: wrap; /* For responsive design */
+    flex-wrap: wrap;
 }
 
 .features-section,
 .benefits-section {
     flex: 1;
     padding: 20px;
-    background: #3a3a3a; /* Dark Grey */
+    background: #3a3a3a;
     border-radius: 10px;
     margin: 10px;
-    text-align: left; /* Align text to the left */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Add subtle shadow for depth */
+    text-align: left;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -241,7 +249,7 @@ body {
 .benefits-section ul {
     list-style: none;
     padding: 0;
-    line-height: 1.6; /* Increase line height for better readability */
+    line-height: 1.6;
 }
 
 .features-section ul li,
@@ -258,9 +266,9 @@ body {
     content: '•';
     position: absolute;
     left: 0;
-    color: #76B900; /* NVIDIA Green */
+    color: #76B900;
     font-size: 24px;
-    line-height: 0.5; /* Align bullets vertically */
+    line-height: 0.5;
 }
 
 .features-section ul li:hover,
@@ -281,11 +289,11 @@ body {
     display: flex;
     justify-content: center;
     gap: 15px;
-    flex-wrap: wrap; /* For responsive design */
+    flex-wrap: wrap;
 }
 
 .download-buttons button {
-    background: #76B900; /* NVIDIA Green */
+    background: #76B900;
     border: none;
     padding: 15px 30px;
     cursor: pointer;
@@ -301,7 +309,7 @@ body {
 }
 
 .footer {
-    background: #3a3a3a; /* Dark Grey */
+    background: #3a3a3a;
     padding: 20px;
     border-top: 1px solid #444;
     text-align: center;
@@ -319,7 +327,7 @@ body {
 .footer .footer-links {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* For responsive design */
+    flex-wrap: wrap;
 }
 
 .footer .footer-links a {
@@ -329,7 +337,7 @@ body {
     font-size: 16px;
     transition: color 0.3s ease;
 }
-
+z
 .footer .footer-links a:hover {
     color: #76B900;
 }
