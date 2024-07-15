@@ -1,5 +1,8 @@
 // src/Quiz.js
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from './firebase';
 import './Quiz.css';
 import { fetchQuizData } from './fetchQuizData'; // Import the fetchQuizData function
 
@@ -19,6 +22,8 @@ function Quiz() {
     const [showFeedback, setShowFeedback] = useState(false); // State to show feedback
     const [points, setPoints] = useState(0); // State to track points
     const [achievements, setAchievements] = useState([]); // State to track achievements
+
+    const navigate = useNavigate();
 
     const handleNextQuestion = useCallback(() => {
         if (currentQuestionIndex < quizData.length - 1) {
@@ -95,8 +100,6 @@ function Quiz() {
     const handleOptionClick = (optionIndex) => {
         const question = quizData[currentQuestionIndex];
         const correct = question.options[optionIndex] === question.answer;
-        console.log('Selected Option:', question.options[optionIndex]);
-        console.log('Correct Answer:', question.answer);
         setSelectedAnswers({
             ...selectedAnswers,
             [currentQuestionIndex]: optionIndex,
@@ -118,6 +121,11 @@ function Quiz() {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
             setTimeLeft(timePerQuestion); // Reset the timer
         }
+    };
+
+    const handleLogout = async () => {
+        await signOut(auth);
+        navigate('/login');
     };
 
     const calculateScore = () => {
@@ -195,6 +203,7 @@ function Quiz() {
                         </li>
                     ))}
                 </ul>
+                <button onClick={handleLogout}>Logout</button>
             </div>
         );
     };

@@ -14,6 +14,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .background {
@@ -24,6 +25,7 @@ body {
     left: 0;
     background: linear-gradient(to bottom right, #2e2e2e, #1c1c1c);
     z-index: -1;
+    pointer-events: none; /* Prevent background from blocking scroll */
 }
 
 .shapes .shape {
@@ -338,7 +340,7 @@ body {
     font-size: 16px;
     transition: color 0.3s ease;
 }
-z
+
 .footer .footer-links a:hover {
     color: #76B900;
 }

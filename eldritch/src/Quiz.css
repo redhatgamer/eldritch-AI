@@ -122,9 +122,21 @@ h1 {
     }
 }
 
-/* Container for the quiz */
+/* src/Quiz.css */
+
+/* Container for the entire quiz application */
 .quiz-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height to center vertically */
+    background-color: #222; /* Ensure background covers full height */
+}
+
+/* Container for the quiz content */
+.quiz-content {
     max-width: 600px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     background-color: #333; /* Dark background for contrast */
@@ -222,6 +234,15 @@ h1 {
     margin-top: 20px;
     font-size: 16px;
     color: #fff; /* Ensure timer text is white */
+}
+
+/* Timer blink effect */
+.timer.blink {
+    animation: blink-animation 1s step-start 0s infinite;
+}
+
+@keyframes blink-animation {
+    50% { opacity: 0; }
 }
 
 /* Feedback */
@@ -345,6 +366,7 @@ h1 {
 .confirm-button:hover {
     background-color: #218838;
 }
+
 
 
 
