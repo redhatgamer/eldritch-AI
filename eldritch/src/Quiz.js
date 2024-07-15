@@ -128,6 +128,10 @@ function Quiz() {
         navigate('/login');
     };
 
+    const navigateHome = () => {
+        navigate('/mainpage');
+    };
+
     const calculateScore = () => {
         let score = 0;
         quizData.forEach((question, index) => {
@@ -203,7 +207,8 @@ function Quiz() {
                         </li>
                     ))}
                 </ul>
-                <button onClick={handleLogout}>Logout</button>
+                <button className="home-btn" onClick={navigateHome}>Home</button>
+                <button className="logout-btn" onClick={handleLogout}>Logout</button>
             </div>
         );
     };
