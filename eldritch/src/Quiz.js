@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// src/Quiz.js
+import React, { useState, useEffect, useCallback } from 'react';
 import './Quiz.css';
 import { fetchQuizData } from './fetchQuizData'; // Import the fetchQuizData function
 
@@ -19,6 +20,15 @@ function Quiz() {
     const [points, setPoints] = useState(0); // State to track points
     const [achievements, setAchievements] = useState([]); // State to track achievements
 
+    const handleNextQuestion = useCallback(() => {
+        if (currentQuestionIndex < quizData.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+            setTimeLeft(timePerQuestion); // Reset the timer
+        } else {
+            setQuizCompleted(true); // Mark quiz as completed if it's the last question
+        }
+    }, [currentQuestionIndex, quizData?.length, timePerQuestion]);
+
     useEffect(() => {
         if (quizStarted && !quizCompleted) {
             const timer = setTimeout(() => {
@@ -30,7 +40,7 @@ function Quiz() {
             }, 1000);
             return () => clearTimeout(timer);
         }
-    }, [quizStarted, quizCompleted, timeLeft]);
+    }, [quizStarted, quizCompleted, timeLeft, handleNextQuestion]);
 
     const handleNumQuestionsChange = (event) => {
         setNumQuestions(parseInt(event.target.value, 10));
@@ -103,15 +113,6 @@ function Quiz() {
         }
     };
 
-    const handleNextQuestion = () => {
-        if (currentQuestionIndex < quizData.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setTimeLeft(timePerQuestion); // Reset the timer
-        } else {
-            setQuizCompleted(true); // Mark quiz as completed if it's the last question
-        }
-    };
-
     const handlePreviousQuestion = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
@@ -158,7 +159,7 @@ function Quiz() {
                         style={{ width: `${((currentQuestionIndex + 1) / quizData.length) * 100}%` }}
                     ></div>
                 </div>
-                <div className="timer">
+                <div className={`timer ${timeLeft <= 10 ? 'blink' : ''}`}>
                     Time left: {Math.floor(timeLeft / 60)}:{('0' + (timeLeft % 60)).slice(-2)}
                 </div>
                 {showFeedback && (
@@ -199,7 +200,7 @@ function Quiz() {
     };
 
     return (
-        <div>
+        <div className="quiz-container">
             {!quizStarted ? (
                 <div className="dropdown-container-wrapper">
                     <div className="dropdown-container">
