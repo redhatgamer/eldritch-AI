@@ -14,10 +14,6 @@ function MainPage() {
     navigate('/profile');
   };
 
-  const navigateHome = () => {
-    navigate('/mainpage');
-  };
-
   return (
     <div className="main-page">
       <div className="background">
@@ -37,7 +33,6 @@ function MainPage() {
             <a href="#">Donations</a>
             <button className="discord-btn">Join our Discord</button>
             <button className="profile-btn" onClick={navigateToProfile}>Profile</button>
-            <button className="home-btn" onClick={navigateHome}>Home</button>
           </nav>
         </header>
         <section className="content">

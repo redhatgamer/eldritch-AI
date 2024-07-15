@@ -1,9 +1,15 @@
-/* MainPage.css */
+/* src/MainPage.css */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+}
+
 body {
-    margin: 0;
     font-family: 'Roboto Mono', monospace, Arial, Helvetica, sans-serif;
     background: #1c1c1c;
     color: #fff;
@@ -81,6 +87,7 @@ body {
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    overflow-y: auto; /* Ensure vertical scrolling */
 }
 
 .header {
@@ -91,6 +98,7 @@ body {
     background: #3a3a3a;
     border: 1px solid #444;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .header .logo {
@@ -103,11 +111,12 @@ body {
 .nav-links {
     display: flex;
     align-items: center;
+    gap: 20px; /* Add spacing between nav items */
+    flex-wrap: wrap; /* Allow wrapping */
 }
 
 .nav-links a,
 .nav-links button {
-    margin-left: 20px;
     color: #fff;
     text-decoration: none;
     font-size: 16px;
@@ -126,6 +135,20 @@ body {
     cursor: pointer;
     border-radius: 5px;
     transition: background 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px; /* Ensure buttons have the same width */
+    text-align: center; /* Center the text inside the button */
+    margin-top: -5px; /* Move the buttons up a bit */
+}
+
+.nav-links .discord-btn {
+    margin-top: 5px; /* Move the Discord button up more */
+}
+
+.nav-links .profile-btn {
+    margin-top: 5px; /* Move the Profile button up more */
 }
 
 .nav-links button:hover {
@@ -176,7 +199,6 @@ body {
 .button-group .topics-btn,
 .button-group .profile-btn {
     background: #76B900;
-    margin-left: 50px;
     color: #fff;
     border: none;
     padding: 15px 30px;
