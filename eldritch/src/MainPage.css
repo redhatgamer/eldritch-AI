@@ -115,20 +115,21 @@ body {
     flex-wrap: wrap; /* Allow wrapping */
 }
 
-.nav-links a,
 .nav-links button {
     color: #fff;
     text-decoration: none;
     font-size: 16px;
     transition: color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.nav-links a:hover,
 .nav-links button:hover {
     color: #76B900;
 }
 
-.nav-links button {
+.nav-links .discord-btn {
     background: #76B900;
     border: none;
     padding: 10px 20px;
@@ -143,15 +144,23 @@ body {
     margin-top: -5px; /* Move the buttons up a bit */
 }
 
-.nav-links .discord-btn {
-    margin-top: 5px; /* Move the Discord button up more */
-}
-
 .nav-links .profile-btn {
-    margin-top: 5px; /* Move the Profile button up more */
+    background: #76B900;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px; /* Ensure buttons have the same width */
+    text-align: center; /* Center the text inside the button */
+    margin-top: -5px; /* Move the buttons up a bit */
 }
 
-.nav-links button:hover {
+.nav-links .discord-btn:hover,
+.nav-links .profile-btn:hover {
     background: #68a700;
     transform: scale(1.05);
 }
@@ -377,14 +386,16 @@ body {
     flex-wrap: wrap;
 }
 
-.footer .footer-links a {
-    margin: 0 10px;
+.footer .footer-links button {
+    background: none;
+    border: none;
     color: #fff;
     text-decoration: none;
     font-size: 16px;
+    cursor: pointer;
     transition: color 0.3s ease;
 }
 
-.footer .footer-links a:hover {
+.footer .footer-links button:hover {
     color: #76B900;
 }

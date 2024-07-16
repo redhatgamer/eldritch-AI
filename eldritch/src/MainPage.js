@@ -56,9 +56,6 @@ function MainPage() {
         <header className="header">
           <div className="logo">Eldritch-AI</div>
           <nav className="nav-links">
-            <a href="#">Download</a>
-            <a href="#">System Requirements</a>
-            <a href="#">Donations</a>
             <button className="discord-btn">Join our Discord</button>
             <button className="profile-btn" onClick={navigateToProfile}>Profile</button>
           </nav>
@@ -104,18 +101,18 @@ function MainPage() {
           <div className="team-members">
             <div className="team-member">
               <h3>Carlos Mejia</h3>
-              <p>Role: Team Lead/Lead Developer</p>
+              <p>Role: <b>Team Lead/Lead Developer</b></p>
               <p>Fun Fact: I love listening to indie music. My favorite artists are TV Girl and Joy Again.</p>
             </div>
             <div className="team-member">
               <h3>Jeanfranco Pinto</h3>
               <p>Role: <b>AI Developer</b></p>
-              <p>Description: I love cheering on the Venezuelan and Portuguese soccer teams. I love playing FIFA.</p>
+              <p>Fun Fact: I love cheering on the Venezuelan and Portuguese soccer teams. I love playing FIFA.</p>
             </div>
             <div className="team-member">
               <h3>Margarita Gutierrez</h3>
               <p>Role: <b>Front-End Developer</b></p>
-              <p>Description: Brief description of Member 3.</p>
+              <p>Fun Fact: I am very proud of being in Colombian. I love aiding Hispanic women like myself to succeed in tech.</p>
             </div>
             <div className="team-member">
               <h3>Nicolas Marin</h3>
@@ -127,9 +124,9 @@ function MainPage() {
         <footer className="footer">
           <p>&copy; 2024 Eldritch-AI. All rights reserved.</p>
           <nav className="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Contact Us</a>
+            <button onClick={() => navigate('/privacy-policy')}>Privacy Policy</button>
+            <button onClick={() => navigate('/terms-of-service')}>Terms of Service</button>
+            <button onClick={() => navigate('/contact-us')}>Contact Us</button>
           </nav>
         </footer>
       </div>
