@@ -1,65 +1,285 @@
 /* src/Profile.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+}
 
 .profile-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
-    color: #ffffff;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to bottom right, #2e2e2e, #1c1c1c);
+  z-index: -1;
+  pointer-events: none; /* Prevent background from blocking scroll */
+}
+
+.shapes .shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: float 10s infinite ease-in-out;
+}
+
+.shape1 {
+  width: 150px;
+  height: 150px;
+  top: 20%;
+  left: 15%;
+}
+
+.shape2 {
+  width: 200px;
+  height: 200px;
+  top: 30%;
+  right: 20%;
+}
+
+.shape3 {
+  width: 100px;
+  height: 100px;
+  bottom: 25%;
+  left: 35%;
+}
+
+.shape4 {
+  width: 250px;
+  height: 250px;
+  bottom: 15%;
+  right: 25%;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
   }
-  
-  .profile-container {
-    background-color: #1a1a1a;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 255, 153, 0.2);
-    max-width: 600px;
-    width: 100%;
+  50% {
+    transform: translateY(-20px);
   }
-  
-  .profile-container h1 {
-    font-size: 3rem;
-    color: #76B900;
-    margin-bottom: 20px;
+  100% {
+    transform: translateY(0);
   }
-  
-  .profile-info {
-    margin-bottom: 30px;
-  }
-  
-  .profile-info p {
-    font-size: 1.2rem;
-    margin: 10px 0;
-  }
-  
-  .profile-info p strong {
-    color: #76B900;
-  }
-  
-  .profile-actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .edit-profile-btn,
-  .logout-btn {
-    background: #76B900;
-    border: none;
-    padding: 15px 30px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .edit-profile-btn:hover,
-  .logout-btn:hover {
-    background: #68a700;
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(104, 167, 0, 0.5);
-  }
-  
+}
+
+.profile-container {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 600px;
+  text-align: left;
+}
+
+.profile-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #76B900;
+  transition: color 0.3s ease;
+}
+
+.profile-container h1:hover {
+  color: #68a700;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-info p {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.profile-info p strong {
+  color: #76B900;
+}
+
+.profile-info .profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  object-fit: cover; /* Maintain aspect ratio and cover the area */
+}
+
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  border-radius: 50%;
+}
+
+.image-preview button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s ease;
+}
+
+.image-preview button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(33, 136, 56, 0.5);
+}
+
+.image-preview button:active {
+  background-color: #1e7e34;
+  transform: scale(0.95);
+}
+
+.edit-profile-form .form-group {
+  margin-bottom: 20px;
+}
+
+.edit-profile-form label {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.edit-profile-form input,
+.edit-profile-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.edit-profile-form textarea {
+  resize: none;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items vertically */
+  margin-top: 20px;
+}
+
+.profile-actions button {
+  padding: 10px 20px;
+  background-color: #76B900;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.profile-actions button:hover {
+  background-color: #68a700;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(104, 167, 0, 0.5);
+}
+
+.profile-actions button:active {
+  background-color: #58a600;
+  transform: scale(0.95);
+}
+
+.save-profile-btn {
+  background-color: #28a745;
+}
+
+.save-profile-btn:hover {
+  background-color: #218838;
+}
+
+.save-profile-btn:active {
+  background-color: #1e7e34;
+}
+
+.cancel-edit-btn {
+  background-color: #dc3545;
+}
+
+.cancel-edit-btn:hover {
+  background-color: #c82333;
+}
+
+.cancel-edit-btn:active {
+  background-color: #bd2130;
+}
+
+/* Logout Button Styles */
+.logout-btn {
+  background-color: #dc3545;
+  margin-top: 35px;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+.logout-btn:active {
+  background-color: #bd2130;
+}
+
+.back-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.back-btn:hover {
+  background-color: #0069d9;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 105, 217, 0.5);
+}
+
+.back-btn:active {
+  background-color: #0056b3;
+  transform: scale(0.95);
+}

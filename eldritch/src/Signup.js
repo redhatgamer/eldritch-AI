@@ -27,6 +27,14 @@ function Signup({ setUser }) {
     setPasswordVisible(!passwordVisible);
   };
 
+  const navigateToLogin = () => {
+    navigate('/login');
+  };
+
+  const navigateToWelcome = () => {
+    navigate('/');
+  };
+
   return (
     <div className="signup-container">
       <h2>Signup</h2>
@@ -53,6 +61,8 @@ function Signup({ setUser }) {
         </div>
         <button type="submit">Signup</button>
       </form>
+      <p className="login-prompt">Already have an account? <button className="login-button" onClick={navigateToLogin}>Login</button></p>
+      <button className="welcome-button" onClick={navigateToWelcome}>Back to Welcome</button>
     </div>
   );
 }
