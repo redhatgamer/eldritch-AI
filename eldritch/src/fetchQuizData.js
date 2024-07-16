@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = "AIzaSyCsywwrhOmbSs5z4fqUVSmT65fhHG1TEgg"; // Replace with your actual API key
+const apiKey = "AIzaSyBosuxYhROXTB6XQkFD7mq3JyacuSEpGW4"; // Directly hardcode your API key
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
@@ -10,71 +10,53 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
         generationConfig: { responseMimeType: "application/json" }
     });
 
-    let prompt;
-    if (questionType === 'both') {
-        const multipleChoiceQuestions = Math.floor(numberOfQuestions / 2);
-        const trueFalseQuestions = numberOfQuestions - multipleChoiceQuestions;
-
-        const multipleChoicePrompt = `
-            Please generate ${multipleChoiceQuestions} multiple choice questions about ${topic} in the following JSON format:
-            [
-                {
-                    "question": "Sample question?",
-                    "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
-                    "answer": "Correct Option"
-                }
-            ];
-        `;
-
-        const trueFalsePrompt = `
-            Please generate ${trueFalseQuestions} true/false questions about ${topic} in the following JSON format:
-            [
-                {
-                    "question": "Sample true/false question?",
-                    "options": ["True", "False"],
-                    "answer": "True"
-                }
-            ];
-        `;
-
-        try {
-            const [multipleChoiceResult, trueFalseResult] = await Promise.all([
-                model.generateContent(multipleChoicePrompt),
-                model.generateContent(trueFalsePrompt)
-            ]);
-
-            const multipleChoiceData = JSON.parse(multipleChoiceResult.response.text());
-            const trueFalseData = JSON.parse(trueFalseResult.response.text());
-            const quizData = shuffle([...multipleChoiceData, ...trueFalseData]);
-            return quizData;
-        } catch (error) {
-            console.error("Error generating content:", error);
-            throw error;
-        }
-    } else {
-        prompt = `
-            Please generate ${numberOfQuestions} ${questionType} questions about ${topic} in the following JSON format:
-            [
+    let prompt = `
+        Validate the topic "${topic}" to ensure it is not a random combination of letters and that it represents actual words. If the topic is valid, generate ${numberOfQuestions} ${questionType} questions. Use LaTeX formatting for any mathematical expressions in the following JSON format:
+        {
+            "valid": true,
+            "questions": [
                 {
                     "question": "Sample question?",
                     ${questionType === 'true/false' ? `
-                    "options": ["True", "False"],
-                    ` : `
-                    "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
-                    `}
+                "options": ["True", "False"],
+                ` : `
+                "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+                `}
                     "answer": "Correct Option"
                 }
-            ];
-        `;
-
-        try {
-            const result = await model.generateContent(prompt);
-            const quizData = JSON.parse(result.response.text());
-            return quizData;
-        } catch (error) {
-            console.error("Error generating content:", error);
-            throw error;
+            ]
         }
+        If the topic is not valid, return:
+        {
+            "valid": false,
+            "error": "Invalid topic"
+        }
+    `;
+
+    try {
+        const result = await model.generateContent(prompt);
+        console.log('API response:', result);
+        
+        const responseData = JSON.parse(await result.response.text());
+        console.log('Parsed response data:', responseData);
+
+        if (!responseData.valid) {
+            return { error: responseData.error };
+        }
+
+        const quizData = responseData.questions.map(question => ({
+            ...question,
+            question: question.question.replace(/\$/g, "\\(").replace(/\$/g, "\\)"), // Ensure LaTeX formatting
+            options: question.options.map(option => option.replace(/\$/g, "\\(").replace(/\$/g, "\\)")) // Ensure LaTeX formatting
+        }));
+
+        return quizData;
+    } catch (error) {
+        console.error("Error generating content:", error);
+        if (error.response && error.response.status === 400) {
+            return { error: 'Invalid topic' };
+        }
+        return { error: 'Failed to generate quiz. Please try again.' };
     }
 }
 

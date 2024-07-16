@@ -4,17 +4,17 @@ function Question({ question, options, selectedOption, onOptionSelect }) {
     return (
         <div>
             <h2>{question}</h2>
-            {options.map((option) => (
-                <div key={option}>
-                    <input
-                        type="radio"
-                        value={option}
-                        checked={selectedOption === option}
-                        onChange={() => onOptionSelect(option)}
-                    />
-                    {option}
-                </div>
-            ))}
+            <ul>
+                {options.map((option, index) => (
+                    <li
+                        key={index}
+                        className={selectedOption === option ? 'selected' : ''}
+                        onClick={() => onOptionSelect(option)}
+                    >
+                        {option}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

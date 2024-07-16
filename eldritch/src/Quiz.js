@@ -1,10 +1,10 @@
-// src/Quiz.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
 import './Quiz.css';
 import { fetchQuizData } from './fetchQuizData'; // Import the fetchQuizData function
+import Question from './Question'; // Import the updated Question component
 
 function Quiz() {
     const [numQuestions, setNumQuestions] = useState(4);
@@ -57,7 +57,7 @@ function Quiz() {
 
     const handleTopicChange = (event) => {
         const value = event.target.value;
-        const regex = /^[a-zA-Z0-9-]*$/;
+        const regex = /^[a-zA-Z0-9-\s]*$/;
         if (value.trim() === '') {
             setErrorMessage('Topic cannot be empty');
         } else if (!regex.test(value)) {
@@ -84,10 +84,16 @@ function Quiz() {
             // Fetch the quiz data using the API
             try {
                 const data = await fetchQuizData(questionType, numQuestions, topic);
-                setQuizData(data); // Store the quiz data
-                setQuizStarted(true); // Set the quiz as started
-                setTimeLeft(timePerQuestion); // Initialize the timer
-                console.log('Quiz created successfully:', data);
+                if (data.error) {
+                    setErrorMessage(data.error);
+                    setShowPopup(true);
+                    setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+                } else {
+                    setQuizData(data); // Store the quiz data
+                    setQuizStarted(true); // Set the quiz as started
+                    setTimeLeft(timePerQuestion); // Initialize the timer
+                    console.log('Quiz created successfully:', data);
+                }
             } catch (error) {
                 console.error('Error creating quiz:', error);
                 setErrorMessage('Failed to create quiz. Please try again.');
@@ -149,18 +155,12 @@ function Quiz() {
 
         return (
             <div className="quiz-question">
-                <p>{question.question}</p>
-                <ul>
-                    {question.options.map((option, optionIndex) => (
-                        <li
-                            key={optionIndex}
-                            className={selectedAnswers[currentQuestionIndex] === optionIndex ? 'selected' : ''}
-                            onClick={() => handleOptionClick(optionIndex)}
-                        >
-                            {option}
-                        </li>
-                    ))}
-                </ul>
+                <Question
+                    question={question.question}
+                    options={question.options}
+                    selectedOption={selectedAnswers[currentQuestionIndex]}
+                    onOptionSelect={(option) => handleOptionClick(option)}
+                />
                 <div className="navigation-buttons">
                     <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</button>
                     <button onClick={handleNextQuestion} disabled={currentQuestionIndex === quizData.length - 1 && !showFeedback}>Next</button>
