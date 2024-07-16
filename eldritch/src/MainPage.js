@@ -81,7 +81,6 @@ function MainPage() {
               <li>Customizable Question Sets</li>
               <li>Real-Time Feedback</li>
               <li>Detailed Performance Analytics</li>
-              <li>Multi-Language Support</li>
             </ul>
           </section>
           <section className="benefits-section">

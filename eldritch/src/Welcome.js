@@ -8,7 +8,7 @@ function Welcome() {
 
   return (
     <div className="welcome-container">
-      <h1 className="animated-text">Welcome to the Quiz App</h1>
+      <h1 className="animated-text">Welcome to Eldritch</h1>
       <p className="description">
         Enhance your learning with our AI-powered quiz generator.
       </p>
