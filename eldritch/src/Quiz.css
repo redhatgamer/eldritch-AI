@@ -216,8 +216,8 @@ h1 {
   
   .navigation-buttons {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    justify-content: flex-end;
+    /* margin-top: 20px; */
   }
   
   .navigation-buttons button {
