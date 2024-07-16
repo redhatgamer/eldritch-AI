@@ -162,7 +162,7 @@ function Quiz() {
                     onOptionSelect={(option) => handleOptionClick(option)}
                 />
                 <div className="navigation-buttons">
-                    <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</button>
+                    {/* <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</button> */}
                     <button onClick={handleNextQuestion} disabled={currentQuestionIndex === quizData.length - 1 && !showFeedback}>Next</button>
                 </div>
                 <div className="progress-bar">
