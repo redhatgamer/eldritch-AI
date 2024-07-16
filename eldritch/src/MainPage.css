@@ -242,7 +242,8 @@ body {
 }
 
 .features-section,
-.benefits-section {
+.benefits-section,
+.about-us-section {
     flex: 1;
     padding: 20px;
     background: #3a3a3a;
@@ -254,32 +255,37 @@ body {
 }
 
 .features-section:hover,
-.benefits-section:hover {
+.benefits-section:hover,
+.about-us-section:hover {
     transform: scale(1.05);
     box-shadow: 0 0 15px rgba(118, 185, 0, 0.5);
 }
 
 .features-section h2,
-.benefits-section h2 {
+.benefits-section h2,
+.about-us-section h2 {
     font-size: 32px;
     margin-bottom: 20px;
     transition: color 0.3s ease;
 }
 
 .features-section h2:hover,
-.benefits-section h2:hover {
+.benefits-section h2:hover,
+.about-us-section h2:hover {
     color: #76B900;
 }
 
 .features-section ul,
-.benefits-section ul {
+.benefits-section ul,
+.about-us-section ul {
     list-style: none;
     padding: 0;
     line-height: 1.6;
 }
 
 .features-section ul li,
-.benefits-section ul li {
+.benefits-section ul li,
+.about-us-section ul li {
     font-size: 18px;
     margin-bottom: 10px;
     transition: color 0.3s ease;
@@ -288,7 +294,8 @@ body {
 }
 
 .features-section ul li::before,
-.benefits-section ul li::before {
+.benefits-section ul li::before,
+.about-us-section ul li::before {
     content: '•';
     position: absolute;
     left: 0;
@@ -298,40 +305,54 @@ body {
 }
 
 .features-section ul li:hover,
-.benefits-section ul li:hover {
+.benefits-section ul li:hover,
+.about-us-section ul li:hover {
     color: #76B900;
 }
 
-.download-section {
-    padding: 50px 20px;
-}
-
-.download-section p {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.download-buttons {
+.about-us-section .team-members {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: space-between;
     flex-wrap: wrap;
+    margin: 0 -10px;
 }
 
-.download-buttons button {
-    background: #76B900;
-    border: none;
-    padding: 15px 30px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
+.about-us-section .team-member {
+    background: #2e2e2e;
+    padding: 15px;
+    border-radius: 10px;
     margin: 10px;
-    transition: background 0.3s ease, transform 0.3s ease;
+    flex: 1;
+    max-width: calc(25% - 20px); /* Ensure they stay squares */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center; /* Center align the text */
+    aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
 }
 
-.download-buttons button:hover {
-    background: #68a700;
+.about-us-section .team-member:hover {
     transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(118, 185, 0, 0.5);
+}
+
+.about-us-section .team-member h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.about-us-section .team-member h3:hover {
+    color: #76B900;
+}
+
+.about-us-section .team-member p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.about-us-section .team-member p:hover {
+    color: #76B900;
 }
 
 .footer {

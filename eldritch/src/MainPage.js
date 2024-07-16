@@ -1,10 +1,38 @@
-// src/MainPage.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth, db } from './firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import './MainPage.css';
 
 function MainPage() {
   const navigate = useNavigate();
+  const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/150'); // Default placeholder
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          console.log('Fetching profile data for user:', user.uid);
+          const userDoc = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(userDoc);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            console.log('Profile data fetched:', data);
+            setProfilePicture(data.profilePicture || 'https://via.placeholder.com/150'); // Fallback to placeholder if no picture
+          } else {
+            console.log('No profile data found');
+          }
+        } catch (error) {
+          console.error('Error fetching profile data:', error);
+        }
+      } else {
+        console.error('No user is authenticated');
+      }
+    };
+
+    fetchProfileData();
+  }, []);
 
   const navigateToQuiz = () => {
     navigate('/quiz');
@@ -45,7 +73,7 @@ function MainPage() {
             </div>
           </div>
           <div className="right-content">
-            <img src="https://via.placeholder.com/150" alt="Logo" className="main-logo" />
+            <img src={profilePicture} alt="Logo" className="main-logo" />
           </div>
         </section>
         <div className="grid-container">
@@ -70,15 +98,30 @@ function MainPage() {
             </ul>
           </section>
         </div>
-        <section className="download-section">
-          <p>DOWNLOAD FOR YOUR SYSTEM:</p>
-          <div className="download-buttons">
-            <button>Windows</button>
-            <button>Linux</button>
-            <button>Mac</button>
-            <button>Android</button>
-            <button>iOS</button>
-            <button>Premium Themes</button>
+        <section className="about-us-section">
+          <h2>About Us</h2>
+          <p>Meet Our Team:</p>
+          <div className="team-members">
+            <div className="team-member">
+              <h3>Carlos Mejia</h3>
+              <p>Role: Team Lead/Lead Developer</p>
+              <p>Fun Fact: I love listening to indie music. My favorite artists are TV Girl and Joy Again.</p>
+            </div>
+            <div className="team-member">
+              <h3>Jeanfranco Pinto</h3>
+              <p>Role: <b>AI Developer</b></p>
+              <p>Description: I love cheering on the Venezuelan and Portuguese soccer teams. I love playing FIFA.</p>
+            </div>
+            <div className="team-member">
+              <h3>Margarita Gutierrez</h3>
+              <p>Role: <b>Front-End Developer</b></p>
+              <p>Description: Brief description of Member 3.</p>
+            </div>
+            <div className="team-member">
+              <h3>Nicolas Marin</h3>
+              <p>Role: <b>Backend Developer</b></p>
+              <p>Fun Fact: My favorite team is Arsenal FC. I am into video games and technology.</p>
+            </div>
           </div>
         </section>
         <footer className="footer">

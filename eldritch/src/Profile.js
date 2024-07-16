@@ -1,9 +1,8 @@
-// src/Profile.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from 'react-avatar-edit';
 import { auth, db } from './firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import './Profile.css';
 
 function Profile() {
@@ -19,6 +18,27 @@ function Profile() {
   const [formData, setFormData] = useState(profileData);
   const [preview, setPreview] = useState(null);
   const [imgError, setImgError] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const fetchProfileData = async () => {
+        try {
+          const userDoc = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(userDoc);
+          if (docSnap.exists()) {
+            console.log('Profile data fetched:', docSnap.data());
+            setProfileData(docSnap.data());
+            setFormData(docSnap.data());
+          } else {
+            console.log('No profile data found');
+          }
+        } catch (error) {
+          console.error('Error fetching profile data:', error);
+        }
+      };
+      fetchProfileData();
+    }
+  }, [user]);
 
   const handleLogout = () => {
     auth.signOut();
