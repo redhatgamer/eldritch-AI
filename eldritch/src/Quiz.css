@@ -338,6 +338,16 @@ h1 {
     transform: scale(1.05);
     box-shadow: 0 0 10px rgba(104, 167, 0, 0.5);
   }
+
+  .loading-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.5em;
+    color: #fff;
+}
+
   
 
 

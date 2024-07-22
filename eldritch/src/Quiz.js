@@ -23,6 +23,8 @@ function Quiz() {
     const [showFeedback, setShowFeedback] = useState(false); // State to show feedback
     const [points, setPoints] = useState(0); // State to track points
     const [achievements, setAchievements] = useState([]); // State to track achievements
+    const [isLoading, setIsLoading] = useState(false); // State to track loading status
+
 
     const navigate = useNavigate();
 
@@ -82,6 +84,7 @@ function Quiz() {
             setShowPopup(true);
             setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
         } else {
+            setIsLoading(true);
             // Fetch the quiz data using the API
             try {
                 const data = await fetchQuizData(questionType, numQuestions, topic);
@@ -100,6 +103,8 @@ function Quiz() {
                 setErrorMessage('Failed to create quiz. Please try again.');
                 setShowPopup(true);
                 setTimeout(() => setShowPopup(false), 3000); // Hide popup after 3 seconds
+            } finally {
+                setIsLoading(false);
             }
         }
     };
@@ -212,57 +217,63 @@ function Quiz() {
         <div className="quiz-container">
             <MathJax.Context input='tex'>
                 {!quizStarted ? (
-                    <div className="dropdown-container-wrapper">
-                        <div className="dropdown-container">
-                            <div>
-                                <label>
-                                    Topic:
-                                    <input
-                                        type="text"
-                                        value={topic}
-                                        onChange={handleTopicChange}
-                                        placeholder="Enter the topic for the quiz"
-                                    />
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    Number of Questions:
-                                    <select value={numQuestions} onChange={handleNumQuestionsChange}>
-                                        <option value="4">4</option>
-                                        <option value="8">8</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    Type of Questions:
-                                    <select value={questionType} onChange={handleQuestionTypeChange}>
-                                        <option value="multiple choice">Multiple Choice</option>
-                                        <option value="true/false">True/False</option>
-                                        <option value="both">Both</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    Select time per question (minutes):
-                                    <select value={timePerQuestion / 60} onChange={handleTimerChange}>
-                                        <option value="2">2</option>
-                                        <option value="5">5</option>
-                                        <option value="8">8</option>
-                                    </select>
-                                </label>
-                            </div>
-                            {showPopup && (
-                                <div className="popup">
-                                    <p>{errorMessage}</p>
-                                </div>
-                            )}
-                            <button className="confirm-button" onClick={handleConfirm}>Confirm</button>
+                    isLoading ? (
+                        <div className="loading-message">
+                            <p>Loading quiz, please wait...</p>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="dropdown-container-wrapper">
+                            <div className="dropdown-container">
+                                <div>
+                                    <label>
+                                        Topic:
+                                        <input
+                                            type="text"
+                                            value={topic}
+                                            onChange={handleTopicChange}
+                                            placeholder="Enter the topic for the quiz"
+                                        />
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        Number of Questions:
+                                        <select value={numQuestions} onChange={handleNumQuestionsChange}>
+                                            <option value="4">4</option>
+                                            <option value="8">8</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        Type of Questions:
+                                        <select value={questionType} onChange={handleQuestionTypeChange}>
+                                            <option value="multiple choice">Multiple Choice</option>
+                                            <option value="true/false">True/False</option>
+                                            <option value="both">Both</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        Select time per question (minutes):
+                                        <select value={timePerQuestion / 60} onChange={handleTimerChange}>
+                                            <option value="2">2</option>
+                                            <option value="5">5</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                {showPopup && (
+                                    <div className="popup">
+                                        <p>{errorMessage}</p>
+                                    </div>
+                                )}
+                                <button className="confirm-button" onClick={handleConfirm}>Confirm</button>
+                            </div>
+                        </div>
+                    )
                 ) : quizCompleted ? (
                     renderSummary()
                 ) : (
@@ -271,6 +282,8 @@ function Quiz() {
             </MathJax.Context>
         </div>
     );
+    
+    
 }
 
 export default Quiz;
