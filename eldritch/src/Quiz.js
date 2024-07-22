@@ -5,6 +5,7 @@ import { auth } from './firebase';
 import './Quiz.css';
 import { fetchQuizData } from './fetchQuizData'; // Import the fetchQuizData function
 import Question from './Question'; // Import the updated Question component
+import MathJax from 'react-mathjax2';
 
 function Quiz() {
     const [numQuestions, setNumQuestions] = useState(4);
@@ -103,12 +104,12 @@ function Quiz() {
         }
     };
 
-    const handleOptionClick = (optionIndex) => {
+    const handleOptionClick = (option) => {
         const question = quizData[currentQuestionIndex];
-        const correct = question.options[optionIndex] === question.answer;
+        const correct = option === question.answer;
         setSelectedAnswers({
             ...selectedAnswers,
-            [currentQuestionIndex]: optionIndex,
+            [currentQuestionIndex]: option,
         });
         setPoints(points + (correct ? 10 : 0)); // Award points for correct answers
         setShowFeedback(true);
@@ -119,13 +120,6 @@ function Quiz() {
 
         if (correct && points >= 50) {
             setAchievements([...achievements, '50 Points Achieved!']);
-        }
-    };
-
-    const handlePreviousQuestion = () => {
-        if (currentQuestionIndex > 0) {
-            setCurrentQuestionIndex(currentQuestionIndex - 1);
-            setTimeLeft(timePerQuestion); // Reset the timer
         }
     };
 
@@ -162,7 +156,6 @@ function Quiz() {
                     onOptionSelect={(option) => handleOptionClick(option)}
                 />
                 <div className="navigation-buttons">
-                    {/* <button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>Previous</button> */}
                     <button onClick={handleNextQuestion} disabled={currentQuestionIndex === quizData.length - 1 && !showFeedback}>Next</button>
                 </div>
                 <div className="progress-bar">
@@ -194,84 +187,88 @@ function Quiz() {
     const renderSummary = () => {
         const score = calculateScore();
         return (
-            <div className="quiz-summary">
-                <h2>Quiz Summary</h2>
-                <p>You scored {score} out of {quizData.length}.</p>
-                <p>Total Points: {points}</p>
-                <ul>
-                    {quizData.map((question, index) => (
-                        <li key={index}>
-                            <p>{question.question}</p>
-                            <p>Your answer: {question.options[selectedAnswers[index]]}</p>
-                            <p>Correct answer: {question.answer}</p>
-                        </li>
-                    ))}
-                </ul>
-                <button className="home-btn" onClick={navigateHome}>Home</button>
-                <button className="logout-btn" onClick={handleLogout}>Logout</button>
-            </div>
+            <MathJax.Context input='tex'>
+                <div className="quiz-summary">
+                    <h2>Quiz Summary</h2>
+                    <p>You scored {score} out of {quizData.length}.</p>
+                    <p>Total Points: {points}</p>
+                    <ul>
+                        {quizData.map((question, index) => (
+                            <li key={index}>
+                                <p><MathJax.Text text={question.question} /></p>
+                                <p>Your answer: <MathJax.Text text={question.options[selectedAnswers[index]]} /></p>
+                                <p>Correct answer: <MathJax.Text text={question.answer} /></p>
+                            </li>
+                        ))}
+                    </ul>
+                    <button className="home-btn" onClick={navigateHome}>Home</button>
+                    <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                </div>
+            </MathJax.Context>
         );
     };
 
     return (
         <div className="quiz-container">
-            {!quizStarted ? (
-                <div className="dropdown-container-wrapper">
-                    <div className="dropdown-container">
-                        <div>
-                            <label>
-                                Topic:
-                                <input
-                                    type="text"
-                                    value={topic}
-                                    onChange={handleTopicChange}
-                                    placeholder="Enter the topic for the quiz"
-                                />
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                Number of Questions:
-                                <select value={numQuestions} onChange={handleNumQuestionsChange}>
-                                    <option value="4">4</option>
-                                    <option value="8">8</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                Type of Questions:
-                                <select value={questionType} onChange={handleQuestionTypeChange}>
-                                    <option value="multiple choice">Multiple Choice</option>
-                                    <option value="true/false">True/False</option>
-                                    <option value="both">Both</option>
-                                </select>
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                Select time per question (minutes):
-                                <select value={timePerQuestion / 60} onChange={handleTimerChange}>
-                                    <option value="2">2</option>
-                                    <option value="5">5</option>
-                                    <option value="8">8</option>
-                                </select>
-                            </label>
-                        </div>
-                        {showPopup && (
-                            <div className="popup">
-                                <p>{errorMessage}</p>
+            <MathJax.Context input='tex'>
+                {!quizStarted ? (
+                    <div className="dropdown-container-wrapper">
+                        <div className="dropdown-container">
+                            <div>
+                                <label>
+                                    Topic:
+                                    <input
+                                        type="text"
+                                        value={topic}
+                                        onChange={handleTopicChange}
+                                        placeholder="Enter the topic for the quiz"
+                                    />
+                                </label>
                             </div>
-                        )}
-                        <button className="confirm-button" onClick={handleConfirm}>Confirm</button>
+                            <div>
+                                <label>
+                                    Number of Questions:
+                                    <select value={numQuestions} onChange={handleNumQuestionsChange}>
+                                        <option value="4">4</option>
+                                        <option value="8">8</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    Type of Questions:
+                                    <select value={questionType} onChange={handleQuestionTypeChange}>
+                                        <option value="multiple choice">Multiple Choice</option>
+                                        <option value="true/false">True/False</option>
+                                        <option value="both">Both</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    Select time per question (minutes):
+                                    <select value={timePerQuestion / 60} onChange={handleTimerChange}>
+                                        <option value="2">2</option>
+                                        <option value="5">5</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                </label>
+                            </div>
+                            {showPopup && (
+                                <div className="popup">
+                                    <p>{errorMessage}</p>
+                                </div>
+                            )}
+                            <button className="confirm-button" onClick={handleConfirm}>Confirm</button>
+                        </div>
                     </div>
-                </div>
-            ) : quizCompleted ? (
-                renderSummary()
-            ) : (
-                renderCurrentQuestion()
-            )}
+                ) : quizCompleted ? (
+                    renderSummary()
+                ) : (
+                    renderCurrentQuestion()
+                )}
+            </MathJax.Context>
         </div>
     );
 }

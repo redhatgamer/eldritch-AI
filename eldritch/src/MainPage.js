@@ -111,7 +111,7 @@ function MainPage() {
             <div className="team-member">
               <h3>Margarita Gutierrez</h3>
               <p>Role: <b>Front-End Developer</b></p>
-              <p>Fun Fact: I am very proud of being in Colombian. I love aiding Hispanic women like myself to succeed in tech.</p>
+              <p>Fun Fact: I am very proud of being Colombian. I love aiding Hispanic women like myself to succeed in tech.</p>
             </div>
             <div className="team-member">
               <h3>Nicolas Marin</h3>
