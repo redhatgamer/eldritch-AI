@@ -348,13 +348,31 @@ h1 {
     color: #fff;
 }
 
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+  }
+  40% {
+      transform: translateY(-30px);
+  }
+  60% {
+      transform: translateY(-15px);
+  }
+}
+
 .logo {
   position: fixed;
   bottom: 10px;
   right: 10px;
   width: 100px; /* Adjust the size as needed */
   height: auto;
+  transition: transform 0.3s ease;
 }
+
+.logo.bounce {
+  animation: bounce 1s;
+}
+
 
 
   

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
@@ -25,10 +25,14 @@ function Quiz() {
     const [points, setPoints] = useState(0); // State to track points
     const [achievements, setAchievements] = useState([]); // State to track achievements
     const [isLoading, setIsLoading] = useState(false); // State to track loading status
+    const [isCorrect, setIsCorrect] = useState(false); // State to track if the answer is correct
+
+    const logoRef = useRef(null);
 
     const navigate = useNavigate();
 
     const handleNextQuestion = useCallback(() => {
+        setIsCorrect(false); // Reset the correct answer state
         if (currentQuestionIndex < quizData.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             setTimeLeft(timePerQuestion); // Reset the timer
@@ -106,14 +110,26 @@ function Quiz() {
         }
     };
 
-    const handleOptionClick = (option) => {
+    const handleOptionClick = (index) => {
         const question = quizData[currentQuestionIndex];
-        const correct = option === question.answer;
+        const correct = index === question.answer;
         setSelectedAnswers({
             ...selectedAnswers,
-            [currentQuestionIndex]: option,
+            [currentQuestionIndex]: index,
         });
         setPoints(points + (correct ? 10 : 0)); // Award points for correct answers
+
+        if (logoRef.current) {
+            logoRef.current.classList.remove('bounce');
+            // Force reflow to restart animation
+            void logoRef.current.offsetWidth;
+            if (correct) {
+                logoRef.current.classList.add('bounce');
+            }
+        }
+
+        setIsCorrect(correct); // Set to true if the answer is correct
+
         setShowFeedback(true);
         setTimeout(() => {
             setShowFeedback(false);
@@ -277,7 +293,7 @@ function Quiz() {
                     renderCurrentQuestion()
                 )}
             </MathJax.Context>
-            <img src={logo} alt="Logo" className="logo" />
+            <img ref={logoRef} src={logo} alt="Logo" className={`logo ${isCorrect ? 'bounce' : ''}`} />
         </div>
     );
 }
