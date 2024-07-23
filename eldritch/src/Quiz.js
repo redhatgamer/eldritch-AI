@@ -55,13 +55,11 @@ function Quiz() {
         setQuestionType(event.target.value);
     };
 
+
     const handleTopicChange = (event) => {
         const value = event.target.value;
-        const regex = /^[a-zA-Z0-9-\s]*$/;
         if (value.trim() === '') {
             setErrorMessage('Topic cannot be empty');
-        } else if (!regex.test(value)) {
-            setErrorMessage('Topic contains invalid characters');
         } else if (value.length < 3 || value.length > 30) {
             setErrorMessage('Topic must be between 3 and 30 characters');
         } else {
