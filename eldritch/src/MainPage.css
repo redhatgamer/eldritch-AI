@@ -99,6 +99,7 @@ body {
     border: 1px solid #444;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header .logo {
@@ -176,6 +177,12 @@ body {
 .left-content {
     flex: 1;
     padding: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .left-content h1 {
@@ -216,6 +223,12 @@ body {
     border-radius: 5px;
     font-size: 16px;
     transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideIn 1s ease-in-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
 }
 
 .button-group .github-btn:hover,
@@ -230,17 +243,32 @@ body {
     flex: 1;
     padding: 20px;
     display: flex;
+    flex-direction: column; /* Ensure elements are stacked vertically */
+    align-items: center;
     justify-content: center;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .right-content img {
     max-width: 100%;
     border-radius: 10px;
     transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .right-content img:hover {
     transform: scale(1.05);
+}
+
+.right-content .welcome-message {
+    margin-top: 10px; /* Add spacing between image and text */
+    font-size: 20px;
+    color: #76B900;
+    transition: color 0.3s ease;
+}
+
+.right-content .welcome-message:hover {
+    color: #68a700;
 }
 
 .grid-container {
@@ -261,6 +289,7 @@ body {
     text-align: left;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideIn 1s ease-in-out;
 }
 
 .features-section:hover,
@@ -319,6 +348,10 @@ body {
     color: #76B900;
 }
 
+.about-us-section {
+    margin-bottom: 50px; /* Add margin bottom to space it from the footer */
+}
+
 .about-us-section .team-members {
     display: flex;
     justify-content: space-between;
@@ -337,6 +370,7 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center; /* Center align the text */
     aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+    animation: fadeIn 1s ease-in-out;
 }
 
 .about-us-section .team-member:hover {
@@ -369,6 +403,7 @@ body {
     padding: 20px;
     border-top: 1px solid #444;
     text-align: center;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .footer p {
@@ -399,3 +434,43 @@ body {
 .footer .footer-links button:hover {
     color: #76B900;
 }
+
+.carousel-section {
+    padding: 20px;
+    background: #3a3a3a;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .carousel {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+  }
+  
+  .carousel-item {
+    flex: none;
+    scroll-snap-align: center;
+    background: #2e2e2e;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+  }
+  
+  .carousel-item:hover {
+    transform: scale(1.05);
+  }
+  
+  .carousel-item h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .carousel-item p {
+    font-size: 16px;
+  }
+  
