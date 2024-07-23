@@ -10,8 +10,8 @@ function Question({ question, options, selectedOption, onOptionSelect }) {
                     {options.map((option, index) => (
                         <li
                             key={index}
-                            className={selectedOption === option ? 'selected' : ''}
-                            onClick={() => onOptionSelect(option)}
+                            className={selectedOption === index ? 'selected' : ''}
+                            onClick={() => onOptionSelect(index)}
                         >
                             <MathJax.Text text={option} />
                         </li>
