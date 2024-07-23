@@ -232,7 +232,10 @@ function Quiz() {
                 {!quizStarted ? (
                     isLoading ? (
                         <div className="loading-message">
-                            <p>Loading quiz, please wait...</p>
+                            <p>Loading quiz, please wait...
+                            The AI can make mistakes. Check important information.
+                            </p>
+                
                         </div>
                     ) : (
                         <div className="dropdown-container-wrapper">
