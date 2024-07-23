@@ -11,7 +11,7 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
     });
 
     let prompt = `
-        Validate the topic "${topic}" to ensure it is not a random combination of letters and that it represents actual words. If the topic is valid, generate ${numberOfQuestions} ${questionType} questions in the following JSON format:
+        Validate the topic "${topic}" to ensure it is not a random combination of letters and that it represents actual words. If the topic is valid, generate ${numberOfQuestions} ${questionType} questions. Use LaTeX formatting for any mathematical expressions in the following JSON format:
         {
             "valid": true,
             "questions": [
@@ -36,7 +36,7 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
     try {
         const result = await model.generateContent(prompt);
         console.log('API response:', result);
-
+        
         const responseData = JSON.parse(await result.response.text());
         console.log('Parsed response data:', responseData);
 
@@ -44,7 +44,13 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
             return { error: responseData.error };
         }
 
-        return responseData.questions;
+        const quizData = responseData.questions.map(question => ({
+            ...question,
+            question: question.question.replace(/\$/g, "\\(").replace(/\$/g, "\\)"), // Ensure LaTeX formatting
+            options: question.options.map(option => option.replace(/\$/g, "\\(").replace(/\$/g, "\\)")) // Ensure LaTeX formatting
+        }));
+
+        return quizData;
     } catch (error) {
         console.error("Error generating content:", error);
         if (error.response && error.response.status === 400) {
@@ -54,10 +60,10 @@ export async function fetchQuizData(questionType, numberOfQuestions, topic) {
     }
 }
 
-// function shuffle(array) {
-//     for (let i = array.length - 1; i > 0; i--) {
-//         const j = Math.floor(Math.random() * (i + 1));
-//         [array[i], array[j]] = [array[j], array[i]];
-//     }
-//     return array;
-// }
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
