@@ -42,6 +42,10 @@ function MainPage() {
     navigate('/profile');
   };
 
+  const navigateToGitHub = () => {
+    window.location.href = 'https://github.com/redhatgamer/eldritch-AI';
+  };
+
   return (
     <div className="main-page">
       <div className="background">
@@ -65,7 +69,7 @@ function MainPage() {
             <h1>Eldritch-AI</h1>
             <p>The Ultimate Quiz Simulator</p>
             <div className="button-group">
-              <button className="github-btn">View Project on GitHub</button>
+              <button className="github-btn" onClick={navigateToGitHub}>View Project on GitHub</button>
               <button className="topics-btn" onClick={navigateToQuiz}>Choose Quiz</button>
             </div>
           </div>
@@ -111,7 +115,7 @@ function MainPage() {
             <div className="team-member">
               <h3>Margarita Gutierrez</h3>
               <p>Role: <b>Front-End Developer</b></p>
-              <p>Fun Fact: I am very proud of being in Colombian. I love aiding Hispanic women like myself to succeed in tech.</p>
+              <p>Fun Fact: I am very proud of being Colombian. I love aiding Hispanic women like myself to succeed in tech.</p>
             </div>
             <div className="team-member">
               <h3>Nicolas Marin</h3>
