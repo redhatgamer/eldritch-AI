@@ -8,6 +8,7 @@ function MainPage() {
   const navigate = useNavigate();
   const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/150'); // Default placeholder
   const [username, setUsername] = useState(''); // State to store username
+  const discordLink = 'https://discord.gg/YOUR_DISCORD_INVITE_LINK'; // Replace with your Discord invite link
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -48,6 +49,10 @@ function MainPage() {
     window.location.href = 'https://github.com/redhatgamer/eldritch-AI';
   };
 
+  const navigateToDiscord = () => {
+    window.location.href = discordLink;
+  };
+
   return (
     <div className="main-page">
       <div className="background">
@@ -60,9 +65,9 @@ function MainPage() {
       </div>
       <div className="main-container">
         <header className="header">
-          <div className="logo">Eldritch-AI</div>
+          <div className="logo1">Eldritch-AI</div>
           <nav className="nav-links">
-            <button className="discord-btn">Join our Discord</button>
+            <button className="discord-btn" onClick={navigateToDiscord}>Join our Discord</button>
             <button className="profile-btn" onClick={navigateToProfile}>Profile</button>
           </nav>
         </header>

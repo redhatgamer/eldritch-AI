@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
@@ -6,6 +6,7 @@ import './Quiz.css';
 import { fetchQuizData } from './fetchQuizData'; // Import the fetchQuizData function
 import Question from './Question'; // Import the updated Question component
 import MathJax from 'react-mathjax2';
+import logo from './logo.png'; // Import the logo image
 
 function Quiz() {
     const [numQuestions, setNumQuestions] = useState(4);
@@ -24,10 +25,14 @@ function Quiz() {
     const [points, setPoints] = useState(0); // State to track points
     const [achievements, setAchievements] = useState([]); // State to track achievements
     const [isLoading, setIsLoading] = useState(false); // State to track loading status
+    const [isCorrect, setIsCorrect] = useState(false); // State to track if the answer is correct
+
+    const logoRef = useRef(null);
 
     const navigate = useNavigate();
 
     const handleNextQuestion = useCallback(() => {
+        setIsCorrect(false); // Reset the correct answer state
         if (currentQuestionIndex < quizData.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             setTimeLeft(timePerQuestion); // Reset the timer
@@ -59,11 +64,8 @@ function Quiz() {
 
     const handleTopicChange = (event) => {
         const value = event.target.value;
-        const regex = /^[a-zA-Z0-9-\s]*$/;
         if (value.trim() === '') {
             setErrorMessage('Topic cannot be empty');
-        } else if (!regex.test(value)) {
-            setErrorMessage('Topic contains invalid characters');
         } else if (value.length < 3 || value.length > 30) {
             setErrorMessage('Topic must be between 3 and 30 characters');
         } else {
@@ -108,21 +110,33 @@ function Quiz() {
         }
     };
 
-    const handleOptionClick = (optionIndex) => {
+    const handleOptionClick = (index) => {
         const question = quizData[currentQuestionIndex];
-        const correct = question.options[optionIndex] === question.answer;
+        const correct = index === question.answer;
         setSelectedAnswers({
             ...selectedAnswers,
-            [currentQuestionIndex]: optionIndex,
+            [currentQuestionIndex]: index,
         });
         setPoints(points + (correct ? 10 : 0)); // Award points for correct answers
+
+        if (logoRef.current) {
+            logoRef.current.classList.remove('bounce');
+            // Force reflow to restart animation
+            void logoRef.current.offsetWidth;
+            if (correct) {
+                logoRef.current.classList.add('bounce');
+            }
+        }
+
+        setIsCorrect(correct); // Set to true if the answer is correct
+
         setShowFeedback(true);
         setTimeout(() => {
             setShowFeedback(false);
             handleNextQuestion();
         }, 1000); // Show feedback for 1 second before moving to the next question
 
-        if (correct && points + 10 >= 50) {
+        if (correct && points >= 50) {
             setAchievements([...achievements, '50 Points Achieved!']);
         }
     };
@@ -157,7 +171,7 @@ function Quiz() {
                     question={question.question}
                     options={question.options}
                     selectedOption={selectedAnswers[currentQuestionIndex]}
-                    onOptionSelect={handleOptionClick}
+                    onOptionSelect={(option) => handleOptionClick(option)}
                 />
                 <div className="navigation-buttons">
                     <button onClick={handleNextQuestion} disabled={currentQuestionIndex === quizData.length - 1 && !showFeedback}>Next</button>
@@ -279,6 +293,7 @@ function Quiz() {
                     renderCurrentQuestion()
                 )}
             </MathJax.Context>
+            <img ref={logoRef} src={logo} alt="Logo" className={`logo ${isCorrect ? 'bounce' : ''}`} />
         </div>
     );
 }
