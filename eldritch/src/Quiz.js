@@ -25,7 +25,6 @@ function Quiz() {
     const [achievements, setAchievements] = useState([]); // State to track achievements
     const [isLoading, setIsLoading] = useState(false); // State to track loading status
 
-
     const navigate = useNavigate();
 
     const handleNextQuestion = useCallback(() => {
@@ -58,11 +57,13 @@ function Quiz() {
         setQuestionType(event.target.value);
     };
 
-
     const handleTopicChange = (event) => {
         const value = event.target.value;
+        const regex = /^[a-zA-Z0-9-\s]*$/;
         if (value.trim() === '') {
             setErrorMessage('Topic cannot be empty');
+        } else if (!regex.test(value)) {
+            setErrorMessage('Topic contains invalid characters');
         } else if (value.length < 3 || value.length > 30) {
             setErrorMessage('Topic must be between 3 and 30 characters');
         } else {
@@ -107,12 +108,12 @@ function Quiz() {
         }
     };
 
-    const handleOptionClick = (option) => {
+    const handleOptionClick = (optionIndex) => {
         const question = quizData[currentQuestionIndex];
-        const correct = option === question.answer;
+        const correct = question.options[optionIndex] === question.answer;
         setSelectedAnswers({
             ...selectedAnswers,
-            [currentQuestionIndex]: option,
+            [currentQuestionIndex]: optionIndex,
         });
         setPoints(points + (correct ? 10 : 0)); // Award points for correct answers
         setShowFeedback(true);
@@ -120,7 +121,7 @@ function Quiz() {
             setShowFeedback(false);
             handleNextQuestion();
         }, 1000); // Show feedback for 1 second before moving to the next question
-    
+
         if (correct && points + 10 >= 50) {
             setAchievements([...achievements, '50 Points Achieved!']);
         }
@@ -156,7 +157,7 @@ function Quiz() {
                     question={question.question}
                     options={question.options}
                     selectedOption={selectedAnswers[currentQuestionIndex]}
-                    onOptionSelect={(option) => handleOptionClick(option)}
+                    onOptionSelect={handleOptionClick}
                 />
                 <div className="navigation-buttons">
                     <button onClick={handleNextQuestion} disabled={currentQuestionIndex === quizData.length - 1 && !showFeedback}>Next</button>
@@ -280,8 +281,6 @@ function Quiz() {
             </MathJax.Context>
         </div>
     );
-    
-    
 }
 
 export default Quiz;
