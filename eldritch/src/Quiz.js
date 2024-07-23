@@ -6,6 +6,7 @@ import './Quiz.css';
 import { fetchQuizData } from './fetchQuizData'; // Import the fetchQuizData function
 import Question from './Question'; // Import the updated Question component
 import MathJax from 'react-mathjax2';
+import logo from './logo.png'; // Import the logo image
 
 function Quiz() {
     const [numQuestions, setNumQuestions] = useState(4);
@@ -24,7 +25,6 @@ function Quiz() {
     const [points, setPoints] = useState(0); // State to track points
     const [achievements, setAchievements] = useState([]); // State to track achievements
     const [isLoading, setIsLoading] = useState(false); // State to track loading status
-
 
     const navigate = useNavigate();
 
@@ -57,7 +57,6 @@ function Quiz() {
     const handleQuestionTypeChange = (event) => {
         setQuestionType(event.target.value);
     };
-
 
     const handleTopicChange = (event) => {
         const value = event.target.value;
@@ -278,10 +277,9 @@ function Quiz() {
                     renderCurrentQuestion()
                 )}
             </MathJax.Context>
+            <img src={logo} alt="Logo" className="logo" />
         </div>
     );
-    
-    
 }
 
 export default Quiz;

@@ -102,7 +102,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.header .logo {
+.header .logo1 {
     font-size: 24px;
     font-weight: bold;
     color: #76B900;
@@ -441,16 +441,16 @@ body {
     border-radius: 10px;
     margin: 20px 0;
     text-align: center;
-  }
-  
-  .carousel {
+}
+
+.carousel {
     display: flex;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     gap: 20px;
-  }
-  
-  .carousel-item {
+}
+
+.carousel-item {
     flex: none;
     scroll-snap-align: center;
     background: #2e2e2e;
@@ -459,18 +459,17 @@ body {
     min-width: 300px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
-  }
-  
-  .carousel-item:hover {
+}
+
+.carousel-item:hover {
     transform: scale(1.05);
-  }
-  
-  .carousel-item h3 {
+}
+
+.carousel-item h3 {
     font-size: 24px;
     margin-bottom: 10px;
-  }
-  
-  .carousel-item p {
+}
+
+.carousel-item p {
     font-size: 16px;
-  }
-  
+}
