@@ -1,0 +1,22 @@
+/* src/Tomogauchi.css */
+.tomogauchi {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .stats {
+    margin-bottom: 10px;
+  }
+  
+  .buttons button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  
+  .tomogauchi-pet {
+    font-size: 3em;
+    margin-top: 10px;
+  }
+  
