@@ -122,8 +122,8 @@ function Quiz() {
             setShowFeedback(false);
             handleNextQuestion();
         }, 1000); // Show feedback for 1 second before moving to the next question
-
-        if (correct && points >= 50) {
+    
+        if (correct && points + 10 >= 50) {
             setAchievements([...achievements, '50 Points Achieved!']);
         }
     };

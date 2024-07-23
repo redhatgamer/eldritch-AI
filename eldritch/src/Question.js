@@ -6,17 +6,19 @@ function Question({ question, options, selectedOption, onOptionSelect }) {
         <MathJax.Context input='tex'>
             <div>
                 <h2><MathJax.Text text={question} /></h2>
-                <ul>
-                    {options.map((option, index) => (
-                        <li
-                            key={index}
-                            className={selectedOption === option ? 'selected' : ''}
-                            onClick={() => onOptionSelect(option)}
-                        >
-                            <MathJax.Text text={option} />
-                        </li>
-                    ))}
-                </ul>
+                {options.map((option, index) => (
+                    <div key={index}>
+                        <input
+                            type="radio"
+                            id={`option-${index}`}
+                            name="quiz"
+                            value={option}
+                            checked={selectedOption === option}
+                            onChange={() => onOptionSelect(index)}
+                        />
+                        <label htmlFor={`option-${index}`}><MathJax.Text text={option} /></label>
+                    </div>
+                ))}
             </div>
         </MathJax.Context>
     );
