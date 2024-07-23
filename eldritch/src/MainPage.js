@@ -7,6 +7,7 @@ import './MainPage.css';
 function MainPage() {
   const navigate = useNavigate();
   const [profilePicture, setProfilePicture] = useState('https://via.placeholder.com/150'); // Default placeholder
+  const [username, setUsername] = useState(''); // State to store username
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -20,6 +21,7 @@ function MainPage() {
             const data = docSnap.data();
             console.log('Profile data fetched:', data);
             setProfilePicture(data.profilePicture || 'https://via.placeholder.com/150'); // Fallback to placeholder if no picture
+            setUsername(data.username || ''); // Fallback to empty string if no username
           } else {
             console.log('No profile data found');
           }
@@ -74,7 +76,8 @@ function MainPage() {
             </div>
           </div>
           <div className="right-content">
-            <img src={profilePicture} alt="Logo" className="main-logo" />
+            <img src={profilePicture} alt="Profile" className="main-logo" />
+            {username && <p className="welcome-message">Welcome, {username}</p>}
           </div>
         </section>
         <div className="grid-container">
